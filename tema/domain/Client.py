@@ -18,7 +18,7 @@ class Client:
         self.lastName = lastName
         self.cnp = cnp
 
-    def getClientID(self):
+    def getID(self):
         """
         :return: Client ID (int)
         """
@@ -36,7 +36,7 @@ class Client:
         """
         return self.lastName
 
-    def getCnp(self):
+    def getCNP(self):
         """
         :return: Client's CNP (int)
         """
