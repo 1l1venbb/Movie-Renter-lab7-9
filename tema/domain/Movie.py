@@ -1,12 +1,5 @@
 class Movie:
 
-    ID: int = -1
-    title: str = ''
-    description: str = ''
-    genre: str = ''
-    releaseYear: int = -1
-    copiesRented: int = 0
-
     def __init__(self, ID, title, description, genre, releaseYear):
         """
         Constructor for Movie class
@@ -115,14 +108,14 @@ class MovieValidator:
         :param movie: Movie object to validate
         :raise: ValueError if object is invalid
         """
-        if movie.getTitle() == "":
+        if movie.getTitle().strip() == "":
             raise ValueError("Title cannot be empty")
 
-        if movie.getDescription() == "":
+        if movie.getDescription().strip() == "":
             raise ValueError("Description cannot be empty")
 
-        if movie.getGenre() == "":
+        if movie.getGenre().strip() == "":
             raise ValueError("Genre cannot be empty")
 
-        if movie.getReleaseYear() >= 2025 or movie.getReleaseYear() <= 1800:
+        if movie.getReleaseYear() >= 2025 or movie.getReleaseYear() < 1878:
             raise ValueError("Invalid year")

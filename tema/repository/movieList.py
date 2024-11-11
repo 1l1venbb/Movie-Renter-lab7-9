@@ -1,16 +1,13 @@
-class ClientList:
+class MovieList:
     def __init__(self):
-        """
-        Constructs a list of clients
-        """
-        self.clients = []
+        self.movies = []
 
     def isEmpty(self):
         """
         Checks if the list is empty
         :return: True if list is empty (bool)
         """
-        if len(self.clients) == 0:
+        if len(self.movies) == 0:
             return True
         return False
 
@@ -21,17 +18,15 @@ class ClientList:
         """
         if self.isEmpty():
             return 0
-        return self.clients[-1].id + 1
+        return self.movies[-1].id + 1
 
-
-
-    def addClient(self, client):
+    def addMovie(self, client):
         """
         Adds a client to the list of clients
         :param client: Client object
         """
         client.setID(self.getNewID())
-        self.clients.append(client)
+        self.movies.append(client)
 
     def removeClient(self, clientToDelete):
         """
@@ -41,18 +36,18 @@ class ClientList:
         """
         deleted = False
 
-        for client in self.clients:
+        for client in self.movies:
             if client.getID() == clientToDelete.getID():
-                self.clients.pop(client)
+                self.movies.pop(client)
                 deleted = True
 
         if not deleted:
-            raise Exception("Client does not exist")
+            raise Exception("Movie does not exist")
 
     def getAll(self):
         """
-        Returns all clients in the list
+        Returns all movies in the list
         :return: list
         """
 
-        return [x for x in self.clients]
+        return [x for x in self.movies]

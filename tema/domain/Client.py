@@ -1,9 +1,6 @@
-class Client:
+from repository import clientList
 
-    ID: int = -1
-    firstName: str = ""
-    lastName: str = ""
-    cnp: str = ""
+class Client:
 
     def __init__(self, ID, firstName, lastName, cnp):
         """
@@ -62,25 +59,25 @@ class Client:
         """
         self.lastName = lastName
 
-    def setCnp(self, cnp):
+    def setCNP(self, cnp):
         """
         Sets the Client's CNP (int)
         :param cnp: client's CNP (int)
         """
         self.cnp = cnp
 
-
 class ClientValidator:
 
-    @staticmethod
-    def validateClient(client):
-        if client.getFirstName() == "":
+
+    def validateClient(self, client):
+
+        if client.getFirstName().strip() == "":
             raise ValueError("First Name cannot be empty")
 
-        if client.getLastName() == "":
+        if client.getLastName().strip() == "":
             raise ValueError("Last Name cannot be empty")
 
-        if len(client.getCnp()) != 13:
+        if len(client.getCNP()) != 13:
             raise ValueError("CNP cannot be empty")
 
         try:
