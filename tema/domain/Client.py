@@ -5,7 +5,6 @@ class Client:
     def __init__(self, ID, firstName, lastName, cnp):
         """
         Constructor for Client class
-        :param ID: Unique client ID (int)
         :param firstName: Client's first name (string)
         :param lastName: Client's last name (string)
         :param cnp: Client's CNP (int)
@@ -14,6 +13,14 @@ class Client:
         self.firstName = firstName
         self.lastName = lastName
         self.cnp = cnp
+
+    def __str__(self):
+        return (f"Client:\n"
+                f"  ID: {self.ID}\n"
+                f"  First Name: {self.firstName}\n"
+                f"  Last Name: {self.lastName}\n"
+                f"  CNP: {self.cnp}")
+
 
     def getID(self):
         """
@@ -39,12 +46,6 @@ class Client:
         """
         return self.cnp
 
-    def setID(self, ID):
-        """
-        :param ID: Unique client ID (int)
-        """
-        self.ID = ID
-
     def setFirstName(self, firstName):
         """
         Sets the client's first name.
@@ -68,19 +69,27 @@ class Client:
 
 class ClientValidator:
 
-
     def validateClient(self, client):
+        """
+        Checks if a client is valid.
+        :param client: Client object to validate
+        :raise: ValueError if object is invalid
+        """
+        errors = ""
 
         if client.getFirstName().strip() == "":
-            raise ValueError("First Name cannot be empty")
+            errors+= "First Name cannot be empty"
 
         if client.getLastName().strip() == "":
-            raise ValueError("Last Name cannot be empty")
+            errors+="Last Name cannot be empty"
 
         if len(client.getCNP()) != 13:
-            raise ValueError("CNP cannot be empty")
+            errors+= "CNP cannot be empty or is too short or too long"
 
         try:
             int(client.getCNP())
         except TypeError:
-            raise ValueError("CNP is invalid")
+            errors+= "CNP is invalid"
+
+        if errors != "":
+            raise ValueError(errors)

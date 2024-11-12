@@ -14,11 +14,22 @@ class ClientList:
             return True
         return False
 
+    def getClient(self, ID):
+        """"
+        Returns a client with the given ID
+        :param ID: ID of the client
+        """
+        for client in self.clients:
+            if client.getID() == ID:
+                return client
+        return None
+
     def getNewID(self):
         """
         Generates a new client ID.
         :return: The new client ID (int)
         """
+
         if self.isEmpty():
             return 0
         return self.clients[-1].id + 1
@@ -30,23 +41,24 @@ class ClientList:
         Adds a client to the list of clients
         :param client: Client object
         """
-        client.setID(self.getNewID())
-        self.clients.append(client)
+        if self.getClient(client.getID()) is not None:
+            raise Exception("Client ID already exists")
+        else:
+            #client.setID(self.getNewID())
+            self.clients.append(client)
 
-    def removeClient(self, clientToDelete):
+    def deleteClient(self, ID):
         """
         Removes a client from the list of clients
-        :param clientToDelete: Client object that will be deleted
+        :param ID: ID of the client to delete
         :raises: Exception if the client does not exist
         """
-        deleted = False
 
-        for client in self.clients:
-            if client.getID() == clientToDelete.getID():
-                self.clients.pop(client)
-                deleted = True
+        client = self.getClient(ID)
+        if client is not None:
+            self.clients.remove(client)
 
-        if not deleted:
+        else:
             raise Exception("Client does not exist")
 
     def getAll(self):
@@ -56,3 +68,13 @@ class ClientList:
         """
 
         return [x for x in self.clients]
+
+    def modifyClient(self, client):
+        """
+        Modifies a client in the list of clients
+        :param client: Client object
+        """
+        actualClient = self.getClient(client.getID())
+        actualClient.setFirstName(client.getFirstName())
+        actualClient.setLastName(client.getLastName())
+        actualClient.setCNP(client.getCNP())

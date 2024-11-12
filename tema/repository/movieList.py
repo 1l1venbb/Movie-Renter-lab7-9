@@ -11,37 +11,48 @@ class MovieList:
             return True
         return False
 
+    def getMovie(self, ID):
+        """
+        Returns a movie with the given ID
+        :param ID: ID of the movie
+        :return: The movie or None
+        """
+        for movie in self.movies:
+            if movie.getID() == ID:
+                return movie
+        return None
+
     def getNewID(self):
         """
-        Generates a new client ID.
-        :return: The new client ID (int)
+        Generates a new movie ID.
+        :return: The new movie ID (int)
         """
         if self.isEmpty():
             return 0
         return self.movies[-1].id + 1
 
-    def addMovie(self, client):
+    def addMovie(self, movie):
         """
-        Adds a client to the list of clients
-        :param client: Client object
+        Adds a movie to the list of movies
+        :param movie: Movie object
         """
-        client.setID(self.getNewID())
-        self.movies.append(client)
+        if movie.getID() in self.movies:
+            raise Exception("Client ID already exists")
+        else:
+            #client.setID(self.getNewID())
+            self.movies.append(movie)
 
-    def removeClient(self, clientToDelete):
+    def deleteMovie(self, ID):
         """
-        Removes a client from the list of clients
-        :param clientToDelete: Client object that will be deleted
-        :raises: Exception if the client does not exist
+        Deletes a movie from the list of movies
+        :param ID: ID of the movie to delete
+        :raises: Exception if the movie does not exist
         """
-        deleted = False
+        movie = self.getMovie(ID)
+        if movie is not None:
+                self.movies.remove(movie)
 
-        for client in self.movies:
-            if client.getID() == clientToDelete.getID():
-                self.movies.pop(client)
-                deleted = True
-
-        if not deleted:
+        else:
             raise Exception("Movie does not exist")
 
     def getAll(self):
@@ -51,3 +62,15 @@ class MovieList:
         """
 
         return [x for x in self.movies]
+
+    def modifyMovie(self, movie):
+        """
+        Modifies a movie in the list of movies
+        :param movie: Movie object
+        """
+        actualMovie = self.getMovie(movie.getID())
+        actualMovie.setTitle(movie.getTitle())
+        actualMovie.setDescription(movie.getDescription())
+        actualMovie.setGenre(movie.getGenre())
+        actualMovie.setReleaseYear(movie.getReleaseYear())
+

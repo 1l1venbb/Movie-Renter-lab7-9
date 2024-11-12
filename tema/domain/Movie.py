@@ -17,6 +17,15 @@ class Movie:
         self.releaseYear = releaseYear
         self.copiesRented = 0
 
+    def __str__(self):
+        return (f"Movie:\n"
+                f"  ID: {self.ID}\n"
+                f"  Title: {self.title}\n"
+                f"  Description: {self.description}\n"
+                f"  Genre: {self.genre}\n"
+                f"  Release Year: {self.releaseYear}\n"
+                f"  Copies Rented: {self.copiesRented}")
+
     def getID(self):
         """
         :return: ID of movie (int)
@@ -101,21 +110,25 @@ class Movie:
         return self.copiesRented
 
 class MovieValidator:
-    @staticmethod
-    def validateMovie(movie):
+
+    def validateMovie(self ,movie):
         """
         Checks if a Movie object is valid
         :param movie: Movie object to validate
         :raise: ValueError if object is invalid
         """
+        errors = ""
         if movie.getTitle().strip() == "":
-            raise ValueError("Title cannot be empty")
+            errors+= "Title cannot be empty"
 
         if movie.getDescription().strip() == "":
-            raise ValueError("Description cannot be empty")
+            errors+= "Description cannot be empty"
 
         if movie.getGenre().strip() == "":
-            raise ValueError("Genre cannot be empty")
+            errors+= "Genre cannot be empty"
 
         if movie.getReleaseYear() >= 2025 or movie.getReleaseYear() < 1878:
-            raise ValueError("Invalid year")
+            errors+= "Invalid year"
+
+        if errors != "":
+            raise ValueError(errors)

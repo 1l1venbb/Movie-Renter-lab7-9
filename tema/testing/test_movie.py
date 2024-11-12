@@ -119,36 +119,37 @@ class TestMovieValidator:
         Test function for validateMovie()
         """
         movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        validator = MovieValidator()
         try:
-            MovieValidator.validateMovie(movie)
+            validator.validateMovie(movie)
             assert True
         except ValueError:
             assert False
 
         movie = Movie(1 , "  ", "First movie ever", "Action", 1878)
         try:
-            MovieValidator.validateMovie(movie)
+            validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True
 
         movie = Movie(1 , "The Horse in Motion", "  ", "Action", 1878)
         try:
-            MovieValidator.validateMovie(movie)
+            validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True
 
         movie = Movie(1 , "The Horse in Motion", "First movie ever", "  ", 1878)
         try:
-            MovieValidator.validateMovie(movie)
+            validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True
 
         movie = Movie(1 , "The Horse in Motion" , "First movie ever", "Action", 1877)
         try:
-            MovieValidator.validateMovie(movie)
+            validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True

@@ -1,4 +1,5 @@
 from domain.Client import Client, ClientValidator
+from repository import clientList
 
 
 class TestClient:
@@ -12,7 +13,6 @@ class TestClient:
         self.test_getFirstName()
         self.test_getLastName()
         self.test_getCNP()
-        self.test_setID()
         self.test_setFirstName()
         self.test_setLastName()
         self.test_setCNP()
@@ -44,14 +44,6 @@ class TestClient:
         """
         client = Client(1, "Ion" , "Popescu", '1234567890')
         assert client.getCNP() == "1234567890"
-
-    def test_setID(self):
-        """
-        Test function for setID()
-        """
-        client = Client(1, "Ion" , "Popescu", '1234567890')
-        client.setID(2)
-        assert client.getID() == 2
 
     def test_setFirstName(self):
         """
@@ -123,3 +115,10 @@ class TestClientValidator:
             assert False
         except ValueError:
             assert True
+
+class TestRepoClient:
+
+    def run_all_tests(self):
+        """
+        Runs all test for RepoClient
+        """
