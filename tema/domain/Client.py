@@ -1,5 +1,3 @@
-from repository import clientList
-
 class Client:
 
     def __init__(self, ID, firstName, lastName, cnp):
@@ -9,63 +7,67 @@ class Client:
         :param lastName: Client's last name (string)
         :param cnp: Client's CNP (int)
         """
-        self.ID = ID
-        self.firstName = firstName
-        self.lastName = lastName
-        self.cnp = cnp
+        self.attr = {"id" : ID, "firstName" : firstName, "lastName" : lastName, "cnp" : cnp}
 
     def __str__(self):
         return (f"Client:\n"
-                f"  ID: {self.ID}\n"
-                f"  First Name: {self.firstName}\n"
-                f"  Last Name: {self.lastName}\n"
-                f"  CNP: {self.cnp}")
+                f"  ID: {self.attr["id"]}\n"
+                f"  First Name: {self.attr["firstName"]}\n"
+                f"  Last Name: {self.attr["lastName"]}\n"
+                f"  CNP: {self.attr["cnp"]}")
 
+    def __eq__(self, other):
+        if isinstance(other, Client):
+            return (self.attr["id"] == other.attr["id"] and
+                    self.attr["firstName"] == other.attr["firstName"] and
+                    self.attr["lastName"] == other.attr["lastName"] and
+                    self.attr["cnp"] == other.attr["cnp"])
+        return False
 
     def getID(self):
         """
         :return: Client ID (int)
         """
-        return self.ID
+        return self.attr["id"]
 
     def getFirstName(self):
         """
         :return: Client's first name (string)
         """
-        return self.firstName
+        return self.attr["firstName"]
 
     def getLastName(self):
         """
         :return: Client's last name (string)
         """
-        return self.lastName
+        return self.attr["lastName"]
 
     def getCNP(self):
         """
         :return: Client's CNP (int)
         """
-        return self.cnp
+        return self.attr["cnp"]
 
     def setFirstName(self, firstName):
         """
         Sets the client's first name.
         :param firstName: Client's first name (string)
         """
-        self.firstName = firstName
+        self.attr["firstName"] = firstName
 
     def setLastName(self, lastName):
         """
         Sets the clients last name.
         :param lastName: Client's last name (string)
         """
-        self.lastName = lastName
+        self.attr["lastName"] = lastName
 
     def setCNP(self, cnp):
         """
         Sets the Client's CNP (int)
         :param cnp: client's CNP (int)
         """
-        self.cnp = cnp
+        self.attr["cnp"] = cnp
 
 class ClientValidator:
 

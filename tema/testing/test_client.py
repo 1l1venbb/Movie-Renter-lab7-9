@@ -1,5 +1,6 @@
 from domain.Client import Client, ClientValidator
-from repository import clientList
+from repository.clientList import ClientList
+from service.serviceClient import ServiceClient
 
 
 class TestClient:
@@ -122,3 +123,107 @@ class TestRepoClient:
         """
         Runs all test for RepoClient
         """
+        self.test_isEmpty()
+        self.test_getClient()
+        self.test_addClient()
+        self.test_deleteClient()
+        self.test_getAll()
+        self.test_modifyClient()
+
+    def test_isEmpty(self):
+        """
+        Test function for isEmpty()
+        """
+        lst = ClientList()
+        assert lst.isEmpty() == True
+
+        client = Client(1, "Ion", "Popescu", '1234567890123')
+        lst.addClient(client)
+        assert lst.isEmpty() == False
+
+    def test_getClient(self):
+        """
+        Test function for getClient()
+        """
+        lst = ClientList()
+        client = Client(1, "Ion", "Popescu", '1234567890123')
+        lst.addClient(client)
+        assert lst.getClient(1) == client
+
+    def test_addClient(self):
+        """
+        Test function for addClient()
+        """
+        lst = ClientList()
+        client = Client(1, "Ion", "Popescu", '1234567890')
+        lst.addClient(client)
+        assert lst.getAll() == [client]
+
+    def test_deleteClient(self):
+        """
+        Test function for deleteClient()
+        """
+        lst = ClientList()
+        client = Client(1, "Ion", "Popescu", '1234567890')
+        lst.addClient(client)
+        lst.deleteClient(1)
+        assert lst.isEmpty() == True
+
+    def test_getAll(self):
+        """
+        Test function for getAll()
+        """
+        lst = ClientList()
+        client = Client(1, "Ion", "Popescu", '1234567890')
+        lst.addClient(client)
+        client1 = Client(2, "Ion", "Popescu", '1234567890')
+        lst.addClient(client1)
+        assert lst.getAll() == [client, client1]
+
+    def test_modifyClient(self):
+        """
+        Test function for modifyClient()
+        """
+        lst = ClientList()
+        client = Client(1, "Ion", "Popescu", '1234567890')
+        lst.addClient(client)
+        client1 = Client(1, "Ion", "Pope", '1234567890123')
+        lst.modifyClient(client1)
+        assert client.getCNP() == client1.getCNP()
+        assert client.getLastName() == client1.getLastName()
+
+class TestClientService:
+
+    def run_all_tests(self):
+        """
+        Runs all test for ClientService
+        """
+        self.test_addClientService()
+        self.getAllClientService()
+
+    def test_addClientService(self):
+        """
+        Test function for addClientService()
+        """
+        clientValidator = ClientValidator()
+        clientRepo = ClientList()
+        service = ServiceClient(clientRepo, clientValidator)
+
+        service.addClientService(1, "Ion" , "Popescu" , '1234567890123')
+        client = clientRepo.getClient(1)
+        assert clientRepo.getAll() == [client]
+
+    def getAllClientService(self):
+        """
+        Test function for getAllClientService()
+        """
+        clientValidator = ClientValidator()
+        clientRepo = ClientList()
+        service = ServiceClient(clientRepo, clientValidator)
+        client = Client(1, "Ion" , "Popescu", '1234567890321')
+        client1 = Client(2, "Ion", "Popescu", '1234567890123')
+
+        service.addClientService(1, "Ion" , "Popescu", '1234567890321')
+        service.addClientService(2, "Ion", "Popescu", '1234567890123')
+
+        assert service.getAllClientsService() == [client, client1]

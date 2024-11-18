@@ -3,6 +3,11 @@ from domain import Movie
 class ServiceMovie:
 
     def __init__(self, repoMovie, validatorMovie):
+        """
+        Constructor for ServiceMovie
+        :param repoMovie: Object of type MovieRepository
+        :param validatorMovie: Object of type MovieValidator
+        """
         self.repoMovie = repoMovie
         self.validatorMovie = validatorMovie
 
@@ -34,9 +39,22 @@ class ServiceMovie:
         self.repoMovie.deleteMovie(ID)
 
     def getMovieService(self, ID):
+        """
+        Service for getting a movie
+        :param ID: (int)
+        :return: Movie object
+        """
         return self.repoMovie.getMovie(ID)
 
     def modifyMovieService(self, ID, title, description, genre, releaseYear):
+        """
+        Service for modifying a movie
+        :param ID: ID of the movie (int)
+        :param title: New Title(str)
+        :param description: New description(str)
+        :param genre: New genre(str)
+        :param releaseYear: New release year(int between 1878 and 2024)
+        """
         movie = Movie.Movie(ID, title, description, genre, releaseYear)
         if movie is not None:
             if title != "":
@@ -61,3 +79,39 @@ class ServiceMovie:
 
             self.validatorMovie.validateMovie(movie)
             self.repoMovie.modifyMovie(movie)
+
+    def searchByTitle(self, title):
+        """
+        Searches movies by their title
+        :param title: title to search
+        :return: list of movies with the title title
+        """
+        lst = [movie for movie in self.repoMovie.getAll() if movie.getTitle() == title]
+        if len(lst) == 0:
+            raise ValueError
+        else:
+            return lst
+
+    def searchByGenre(self, genre):
+        """
+        Searches movies by their genre
+        :param genre: genre to search
+        :return: list of movies with the genre genre
+        """
+        lst = [movie for movie in self.repoMovie.getAll() if movie.getGenre() == genre]
+        if len(lst) == 0:
+            raise ValueError
+        else:
+            return lst
+
+    def searchByReleaseYear(self, year):
+        """
+        Searches movies by their release year
+        :param year: release year to search
+        :return: list of movies with the release year year
+        """
+        lst = [movie for movie in self.repoMovie.getAll() if movie.getReleaseYear() == year]
+        if len(lst) == 0:
+            raise ValueError
+        else:
+            return lst

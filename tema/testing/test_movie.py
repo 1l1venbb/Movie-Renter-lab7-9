@@ -1,4 +1,5 @@
 from domain.Movie import Movie, MovieValidator
+from repository.movieList import MovieList
 
 class TestMovie:
 
@@ -153,3 +154,82 @@ class TestMovieValidator:
             assert False
         except ValueError:
             assert True
+
+class TestRepoMovie:
+
+    def run_all_tests(self):
+        """
+        Runs all tests for RepoMovie
+        """
+        self.test_isEmpty()
+        self.test_getMovie()
+        self.test_addMovie()
+        self.test_deleteMovie()
+        self.test_getAll()
+        self.test_modifyMovie()
+
+    def test_isEmpty(self):
+        """
+        Test function for isEmpty()
+        """
+        lst = MovieList()
+        assert lst.isEmpty() == True
+
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie)
+        assert lst.isEmpty() == False
+
+    def test_getMovie(self):
+        """
+        Test function for getMovie()
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie)
+        assert lst.getMovie(1) == movie
+
+    def test_addMovie(self):
+        """
+        Test function for addMovie()
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie)
+        assert lst.getAll() == [movie]
+
+
+    def test_deleteMovie(self):
+        """
+        Test function for deleteMovie()
+        :return:
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie)
+        assert lst.isEmpty() == False
+        lst.deleteMovie(1)
+        assert lst.isEmpty() == True
+
+    def test_getAll(self):
+        """
+        Test function for getAll()
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie)
+        movie1 = Movie(2, "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie1)
+        assert lst.getAll() == [movie, movie1]
+
+    def test_modifyMovie(self):
+        """
+        Test function for modifyMovie()
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        lst.addMovie(movie)
+        movie1 = Movie(1, "The Horse in the House", "First movie ever", "Action", 18)
+        lst.modifyMovie(movie1)
+        movie = lst.getMovie(1)
+        assert movie.getTitle() == movie1.getTitle()
+        assert movie.getReleaseYear() == movie1.getReleaseYear()

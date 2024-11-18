@@ -26,6 +26,15 @@ class Movie:
                 f"  Release Year: {self.releaseYear}\n"
                 f"  Copies Rented: {self.copiesRented}")
 
+    def __eq__(self, other):
+        if isinstance(other, Movie):
+            return (self.ID == other.ID and
+                    self.title == other.title and
+                    self.description == other.description and
+                    self.genre == other.genre and
+                    self.releaseYear == other.releaseYear)
+        return False
+
     def getID(self):
         """
         :return: ID of movie (int)
