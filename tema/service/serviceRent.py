@@ -1,15 +1,15 @@
 from domain import Rent
-from repository import movieList
 
 
 class ServiceRent:
 
-    def __init__(self, repoRents, validatorRent, movieRepo):
+    def __init__(self, repoRents, validatorRent, movieRepo, clientRepo):
         self.movieRepo = movieRepo
         self.repoRents = repoRents
         self.validatorRent = validatorRent
+        self.clientRepo = clientRepo
 
-    def addRentService(self, ID, IDClient, IDMovie, day, month, year, clientList, movieList):
+    def addRentService(self, ID, IDClient, IDMovie, day, month, year):
         """
         Service for adding rents
         :param ID: ID of the rent
@@ -21,7 +21,7 @@ class ServiceRent:
         """
         try:
             rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year)
-            self.validatorRent.validateRent(rent, clientList, movieList)
+            self.validatorRent.validateRent(rent, self.clientRepo.getAll(), self.movieRepo.getAll())
             self.repoRents.addRent(rent)
             movieID = self.repoRents.getRent(ID).getMovieID()
             movie = self.movieRepo.getMovie(movieID)

@@ -14,6 +14,31 @@ class ClientList:
             return True
         return False
 
+    def isIDUnique(self, ID):
+        """
+        Checks if ID is unique
+        :param ID:ID to be checked
+        :return: True if ID is unique (bool)
+        :raises: ValueError if ID already exists
+        """
+
+        for client in self.clients:
+            if client.getID() == ID:
+                raise ValueError("ID already exists")
+        return True
+
+    def isCNPUnique(self, CNP):
+        """
+        Checks if CNP is unique
+        :param CNP: CNP to be checked
+        :return: True if CNP is unique (bool)
+        :raises: ValueError if CNP already exists
+        """
+        for client in self.clients:
+            if client.getCNP() == CNP:
+                raise ValueError("CNP already exists")
+        return True
+
     def getClient(self, ID):
         """"
         Returns a client with the given ID

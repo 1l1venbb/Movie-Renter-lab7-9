@@ -30,7 +30,9 @@ class Terminal:
             "search_movie_by_genre":self.uiSearchMovieByGenre,
             "search_movie_by_release_year":self.uiSearchMovieByReleaseYear,
             "search_rent_by_client_id":self.uiSearchRentByClientID,
-            "search_rent_by_movie_id":self.uiSearchRentByMovieID
+            "search_rent_by_movie_id":self.uiSearchRentByMovieID,
+
+            "generate_clients":self.uiGenerateClients
 
 
         }
@@ -113,7 +115,7 @@ class Terminal:
                 print("Invalid date")
 
         try:
-            self.RentService.addRentService(ID, clientID, movieID, day, month, year, self.ClientService.getAllClientsService(), self.MovieService.getAllMoviesService())
+            self.RentService.addRentService(ID, clientID, movieID, day, month, year)
         except Exception as e:
             print(e)
 
@@ -464,6 +466,21 @@ class Terminal:
 
         for rent in rents:
             print(rent)
+
+    def uiGenerateClients(self):
+        """
+        UI function for generating clients
+        """
+        while True:
+            try:
+                count = int(input("Enter the number of clients you want to generate:"))
+                break
+            except ValueError:
+                print("Invalid number of clients.")
+
+        for i in range(count):
+            self.ClientService.generateClientService()
+
 
     def run(self):
         """

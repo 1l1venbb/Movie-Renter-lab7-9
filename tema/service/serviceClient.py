@@ -1,4 +1,5 @@
 from domain import Client
+from utils.randomClient import RandomClient
 
 class ServiceClient:
 
@@ -107,3 +108,29 @@ class ServiceClient:
                 return client
 
         return None
+
+
+    def generateClientService(self):
+        randomClient = RandomClient()
+
+        ID = 0
+        cnp = ""
+
+        while True:
+            try:
+                ID = randomClient.generateRandomID()
+                self.repoClient.isIDUnique(ID)
+                break
+            except ValueError:
+                continue
+        while True:
+            try:
+                cnp = randomClient.generateRandomCNP()
+                self.repoClient.isCNPUnique(cnp)
+                break
+            except ValueError:
+                continue
+
+        r = randomClient.generateRandomClient(ID, cnp)
+
+        self.addClientService(r["id"], r["firstName"], r["lastName"], r["cnp"])

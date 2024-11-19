@@ -1,5 +1,6 @@
 from . import test_client, test_rent
 from . import test_movie
+from . import test_utils
 
 class AssembleTests:
     @staticmethod
@@ -24,3 +25,6 @@ class AssembleTests:
        testRent.run_all_tests()
        testRentValidator = test_rent.TestRentValidator()
        testRentValidator.run_all_tests()
+
+       testUtils = test_utils.TestRandomClient()
+       testUtils.run_all_tests()

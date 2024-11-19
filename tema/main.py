@@ -24,7 +24,7 @@ movieService = serviceMovie.ServiceMovie(movieRepo, movieValidator)
 
 rentValidator = Rent.RentValidator()
 rentRepo = rentList.RentList()
-rentService = serviceRent.ServiceRent(rentRepo, rentValidator, movieRepo)
+rentService = serviceRent.ServiceRent(rentRepo, rentValidator, movieRepo, clientRepo)
 
 UI = terminal.Terminal(clientService, movieService, rentService)
 
