@@ -147,3 +147,11 @@ class TestRentValidator:
             assert False
         except ValueError:
             assert True
+
+
+        rent.setReturnDate(13, 11, 2024)
+        try:
+            validator.validateReturnDate(rent.getReturnDay(), rent.getReturnMonth(), rent.getReturnYear(), rent)
+            assert True
+        except ValueError:
+            assert False

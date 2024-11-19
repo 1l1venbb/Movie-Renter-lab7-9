@@ -19,12 +19,16 @@ class Rent:
         self.returnDate = {"day" : 0, "month" : 0, "year" : 0}
 
     def __str__(self):
-        return (f"Rent:\n"
-                f"  ID: {self.ID}\n"
-                f"  Client ID: {self.clientID}\n"
-                f"  Movie ID: {self.movieID}\n"
-                f"  Rent Date: {self.rentDate}\n"
-                if self.returnDate == {"day" : 0, "month" : 0, "year" : 0} else f"  Return Date: {self.returnDate}")
+        rent_info = (f"Rent:\n"
+                     f"  ID: {self.ID}\n"
+                     f"  Client ID: {self.clientID}\n"
+                     f"  Movie ID: {self.movieID}\n"
+                     f"  Rent Date: {self.rentDate}\n")
+
+        if self.returnDate == {"day": 0, "month": 0, "year": 0}:
+            return rent_info + "  Return Date: Not yet returned"
+        else:
+            return rent_info + f"  Return Date: {self.returnDate}"
 
     def getID(self):
         """
@@ -155,11 +159,21 @@ class RentValidator:
         """
         errors = ""
 
-        if year < 2024 or year > 2025 or year < rent.getRentYear():
+        day1 = rent.getRentDay()
+        month1 = rent.getRentMonth()
+        year1 = rent.getRentYear()
+
+        rent_date = (year1, month1, day1)
+        return_date = (year, month, day)
+
+        if return_date < rent_date:
+            errors += "Return date cannot be before the rent date. "
+
+        if year < 2024 or year > 2025:
             errors += "Invalid year"
-        if month < 1 or month > 12 or month < rent.getRentMonth():
+        if month < 1 or month > 12:
             errors += "Invalid month"
-        if day < 1 or day > monthrange(year, month)[1] or day < rent.getRentDateDay():
+        if day < 1 or day > monthrange(year, month)[1]:
             errors += "Invalid day"
 
         if errors != "":

@@ -66,4 +66,3 @@ class RentList:
         actualRent.setClientID(rent.getClientID())
         actualRent.setMovieID(rent.getMovieID())
         actualRent.setRentDate(rent.getRentDay(), rent.getRentMonth(), rent.getRentYear())
-        actualRent.setReturnDate(rent.getReturnDay(), rent.getReturnMonth(), rent.getReturnYear())

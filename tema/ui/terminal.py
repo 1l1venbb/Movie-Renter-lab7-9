@@ -122,18 +122,15 @@ class Terminal:
         Marks a rented movie as returned
         :return:
         """
-        if not self.RentService.isEmpty():
-            while True:
-                try:
-                    ID = int(input("Enter rent ID to return:"))
-                    if self.RentService.getRentService(ID) is None:
-                        print("Rent ID not found, please try again.")
-                    else:
-                        break
-                except ValueError:
-                    print("Invalid ID")
-        else:
-            print("There are no rents to return.")
+
+        try:
+            ID = int(input("Enter rent ID to return:"))
+            if self.RentService.getRentService(ID) is None:
+                print("Rent ID not found")
+                return
+
+        except ValueError:
+            print("Invalid ID")
             return
 
         while True:
@@ -146,7 +143,7 @@ class Terminal:
                 print("Invalid date")
 
         try:
-            self.RentService.returnRentService(ID, day, month, year)
+            self.RentService.addReturnService(ID, day, month, year)
         except Exception as e:
             print(e)
 
@@ -239,20 +236,14 @@ class Terminal:
         """
         UI function for modifying a clients ID, first name, last name and CNP
         """
-        if not self.ClientService.isEmpty():
-            while True:
-                try:
-                    ID = int(input("Enter client ID to modify:"))
-                    if self.ClientService.getClientService(ID):
-                        break
-                    else:
-                        print("Client ID not found, please try again.")
-                except ValueError:
-                    print("Invalid ID")
-        else:
-            print("There are no clients to modify.")
-            return
+        try:
+            ID = int(input("Enter client ID to modify:"))
+            if not self.ClientService.getClientService(ID):
+                print("Client ID not found, please try again.")
 
+        except ValueError:
+            print("Invalid ID")
+            return
         firstName = input("Enter the new first name (leave empty to keep current):")
         lastName = input("Enter the new last name (leave empty to keep current):")
         cnp = input("Enter the new CNP (leave empty to keep current):")
@@ -263,19 +254,16 @@ class Terminal:
         """
         UI function for modifying a movie ID, title, description, genre and release year
         """
-        if not self.MovieService.isEmpty():
-            while True:
-                try:
-                    ID = int(input("Enter movie ID to modify:"))
-                    if self.MovieService.getMovieService(ID):
-                        break
-                    else:
-                        print("Movie ID not found, please try again.")
-                except ValueError:
-                    print("Invalid ID")
-        else :
-            print("There are no movies to modify.")
+
+        try:
+            ID = int(input("Enter movie ID to modify:"))
+            if not self.MovieService.getMovieService(ID):
+                print("Movie ID not found, please try again.")
+                return
+        except ValueError:
+            print("Invalid ID")
             return
+
 
         title = input("Enter the new title (leave empty to keep current):")
         description = input("Enter the new description (leave empty to keep current):")
@@ -293,19 +281,16 @@ class Terminal:
         """
         UI function for modifying a rent's id, client id, movie id, rent date, return date
         """
-        if not self.RentService.isEmpty():
-            while True:
-                try:
-                    ID = int(input("Enter rent ID to modify:"))
-                    if self.RentService.getRentService(ID) is None:
-                        print("Rent ID not found, please try again.")
-                    else:
-                        break
-                except ValueError:
-                    print("Invalid ID")
-        else:
-            print("There are no rents to modify.")
+        try:
+            ID = int(input("Enter rent ID to modify:"))
+            if self.RentService.getRentService(ID) is None:
+                print("Rent ID not found, please try again.")
+                return
+
+        except ValueError:
+            print("Invalid ID")
             return
+
 
         newID = input("Enter new ID(leave empty to keep current):")
         clientID = input("Enter new client ID(leave empty to keep current):")
@@ -368,7 +353,7 @@ class Terminal:
             else:
                 print("CNP is invalid.")
 
-        client = self.ClientService.searchClientByCNP()
+        client = self.ClientService.searchClientByCNP(cnp.strip())
 
         if client is None:
             print("There are no clients with the CNP " + cnp.strip() + ".")
@@ -446,11 +431,11 @@ class Terminal:
 
         rents = []
         while True:
-            clientID = input("Enter the client ID to search for:")
-            if clientID != "":
+            try:
+                clientID = int(input("Enter the client ID to search for:"))
                 break
-            else:
-                print("Client ID can't be empty.")
+            except ValueError:
+                print("Invalid ID")
 
         try:
             rents = self.RentService.searchRentByClientID(clientID)
@@ -466,11 +451,11 @@ class Terminal:
         """
         rents = []
         while True:
-            movieID = input("Enter the movie ID to search for:")
-            if movieID != "":
+            try:
+                movieID = int(input("Enter the client ID to search for:"))
                 break
-            else:
-                print("Movie ID can't be empty.")
+            except ValueError:
+                print("Invalid ID")
 
         try:
             rents = self.RentService.searchRentByMovieID(movieID)

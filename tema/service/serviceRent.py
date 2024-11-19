@@ -4,7 +4,8 @@ from repository import movieList
 
 class ServiceRent:
 
-    def __init__(self, repoRents, validatorRent):
+    def __init__(self, repoRents, validatorRent, movieRepo):
+        self.movieRepo = movieRepo
         self.repoRents = repoRents
         self.validatorRent = validatorRent
 
@@ -18,9 +19,15 @@ class ServiceRent:
         :param month: month of rent
         :param year: year of rent
         """
-        rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year)
-        self.validatorRent.validateRent(rent, clientList, movieList)
-        self.repoRents.addRent(rent)
+        try:
+            rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year)
+            self.validatorRent.validateRent(rent, clientList, movieList)
+            self.repoRents.addRent(rent)
+            movieID = self.repoRents.getRent(ID).getMovieID()
+            movie = self.movieRepo.getMovie(movieID)
+            movie.wasRented()
+        except ValueError as ve:
+            raise ValueError(ve)
 
     def addReturnService(self, ID, day, month, year):
         """
@@ -35,6 +42,9 @@ class ServiceRent:
             self.validatorRent.validateReturnDate(day, month, year, rent)
             rent.setReturnDate(day, month, year)
             self.repoRents.modifyRent(rent)
+            movieID = self.repoRents.getRent(ID).getMovieID()
+            movie = self.movieRepo.getMovie(movieID)
+            movie.wasReturned()
         except ValueError:
             raise ValueError("Return date cannot be in the past.")
 
@@ -75,6 +85,7 @@ class ServiceRent:
         :param clientList: list of clients
         :param movieList: list of movies
         """
+        rent1 = self.repoRents.getRent(ID)
         try:
             newID = int(newID) if newID != "" else None
             IDClient = int(IDClient) if IDClient != "" else None
@@ -100,16 +111,13 @@ class ServiceRent:
 
         if returnDay is not None or returnMonth is not None or returnYear is not None:
             try:
-                rent.setReturnDate(
-                returnDay if returnDay is not None else self.repoRents.getRent(ID if ID is not None else self.repoRents.getRent(ID).getID()),
-                returnMonth if returnMonth is not None else self.repoRents.getRent(ID if ID is not None else self.repoRents.getRent(ID).getID()),
-                returnYear if returnYear is not None else self.repoRents.getRent(ID if ID is not None else self.repoRents.getRent(ID).getID()))
 
-                self.validatorRent.validateReturnDate(
-                returnDay if returnDay is not None else self.repoRents.getRent(ID if ID is not None else self.repoRents.getRent(ID).getID()),
-                returnMonth if returnMonth is not None else self.repoRents.getRent(ID if ID is not None else self.repoRents.getRent(ID).getID()),
-                returnYear if returnYear is not None else self.repoRents.getRent(ID if ID is not None else self.repoRents.getRent(ID).getID())
-                , rent)
+                rent.setReturnDate(
+                returnDay if returnDay is not None else rent1.getReturnDay(),
+                returnMonth if returnMonth is not None else rent1.getReturnMonth(),
+                returnYear if returnYear is not None else rent1.getReturnYear())
+
+                self.validatorRent.validateReturnDate(rent.getReturnDay(),rent.getReturnMonth(),rent.getReturnYear(), rent)
                 self.repoRents.getRent(ID).setReturnDate(rent.getReturnDay(), rent.getReturnMonth(), rent.getReturnYear())
             except ValueError:
                 raise ValueError("Return date cannot be in the past.")
