@@ -2,6 +2,12 @@ class MovieList:
     def __init__(self):
         self.movies = []
 
+    def __len__(self):
+        """
+        Returns the number of clients.
+        """
+        return len(self.movies)
+
     def isEmpty(self):
         """
         Checks if the list is empty

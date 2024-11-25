@@ -1,13 +1,13 @@
 class Client:
 
-    def __init__(self, ID, firstName, lastName, cnp):
+    def __init__(self, ID, firstName, lastName, cnp, copiesRented):
         """
         Constructor for Client class
         :param firstName: Client's first name (string)
         :param lastName: Client's last name (string)
         :param cnp: Client's CNP (int)
         """
-        self.attr = {"id" : ID, "firstName" : firstName, "lastName" : lastName, "cnp" : cnp}
+        self.attr = {"id" : ID, "firstName" : firstName, "lastName" : lastName, "cnp" : cnp, "copiesRented" : copiesRented}
 
     def __str__(self):
         return (f"Client:\n"
@@ -48,6 +48,12 @@ class Client:
         """
         return self.attr["cnp"]
 
+    def getCopiesRented(self):
+        """
+        :return: The number of movie copies rented
+        """
+        return self.attr["copiesRented"]
+
     def setFirstName(self, firstName):
         """
         Sets the client's first name.
@@ -68,6 +74,18 @@ class Client:
         :param cnp: client's CNP (int)
         """
         self.attr["cnp"] = cnp
+
+    def rented(self):
+        """
+        Counts the copies currently rented by a client.
+        """
+        self.attr["copiesRented"] += 1
+
+    def returned(self):
+        """
+        Counts the copies currently rented by a client.
+        """
+        self.attr["copiesRented"] -= 1
 
 class ClientValidator:
 

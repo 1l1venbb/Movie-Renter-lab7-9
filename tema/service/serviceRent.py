@@ -23,9 +23,10 @@ class ServiceRent:
             rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year)
             self.validatorRent.validateRent(rent, self.clientRepo.getAll(), self.movieRepo.getAll())
             self.repoRents.addRent(rent)
-            movieID = self.repoRents.getRent(ID).getMovieID()
-            movie = self.movieRepo.getMovie(movieID)
+            movie = self.movieRepo.getMovie(IDMovie)
             movie.wasRented()
+            client = self.clientRepo.getClient(IDClient)
+            client.rented()
         except ValueError as ve:
             raise ValueError(ve)
 
@@ -45,6 +46,9 @@ class ServiceRent:
             movieID = self.repoRents.getRent(ID).getMovieID()
             movie = self.movieRepo.getMovie(movieID)
             movie.wasReturned()
+            clientID = self.repoRents.getRent(ID).getClientID()
+            client = self.clientRepo.getClient(clientID)
+            client.returned()
         except ValueError:
             raise ValueError("Return date cannot be in the past.")
 

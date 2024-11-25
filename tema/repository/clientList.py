@@ -5,6 +5,12 @@ class ClientList:
         """
         self.clients = []
 
+    def __len__(self):
+        """
+        Returns the number of clients.
+        """
+        return len(self.clients)
+
     def isEmpty(self):
         """
         Checks if the list is empty

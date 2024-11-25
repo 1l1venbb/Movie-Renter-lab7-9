@@ -20,7 +20,7 @@ class ServiceMovie:
         :param genre: Genre of the movie
         :param releaseYear: Release year of the movie
         """
-        movie = Movie.Movie(ID, title, description, genre, releaseYear)
+        movie = Movie.Movie(ID, title, description, genre, releaseYear, 0)
         self.validatorMovie.validateMovie(movie)
         self.repoMovie.addMovie(movie)
 
@@ -55,7 +55,7 @@ class ServiceMovie:
         :param genre: New genre(str)
         :param releaseYear: New release year(int between 1878 and 2024)
         """
-        movie = Movie.Movie(ID, title, description, genre, releaseYear)
+        movie = Movie.Movie(ID, title, description, genre, releaseYear, 0)
         if movie is not None:
             if title != "":
                 movie.setTitle(title)

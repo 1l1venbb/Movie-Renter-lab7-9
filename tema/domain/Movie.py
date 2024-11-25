@@ -1,6 +1,6 @@
 class Movie:
 
-    def __init__(self, ID, title, description, genre, releaseYear):
+    def __init__(self, ID, title, description, genre, releaseYear, copiesRented):
         """
         Constructor for Movie class
         :param ID: ID of movie (int)
@@ -15,7 +15,7 @@ class Movie:
         self.description = description
         self.genre = genre
         self.releaseYear = releaseYear
-        self.copiesRented = 0
+        self.copiesRented = copiesRented
 
     def __str__(self):
         return (f"Movie:\n"

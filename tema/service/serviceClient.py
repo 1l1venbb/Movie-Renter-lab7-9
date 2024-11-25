@@ -20,7 +20,7 @@ class ServiceClient:
         :param lastName: Last name of the client (str)
         :param cnp: CNP of the client (str len()=13)
         """
-        client = Client.Client(ID, firstName, lastName, cnp)
+        client = Client.Client(ID, firstName, lastName, cnp, 0)
         self.validatorClient.validateClient(client)
         self.repoClient.addClient(client)
 
@@ -53,7 +53,7 @@ class ServiceClient:
         :param lastName: New last name(str)
         :param cnp: New cnp(int)
         """
-        client = Client.Client(ID, firstName, lastName, cnp)
+        client = Client.Client(ID, firstName, lastName, cnp, 0)
         if client is not None:
             if firstName != "":
                 client.setFirstName(firstName)
