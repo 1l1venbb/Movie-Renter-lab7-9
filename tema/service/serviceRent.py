@@ -1,4 +1,5 @@
 from domain import Rent
+from utils.randomRent import RandomRent
 
 
 class ServiceRent:
@@ -20,7 +21,7 @@ class ServiceRent:
         :param year: year of rent
         """
         try:
-            rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year)
+            rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year, 0, 0, 0)
             self.validatorRent.validateRent(rent, self.clientRepo.getAll(), self.movieRepo.getAll())
             self.repoRents.addRent(rent)
             movie = self.movieRepo.getMovie(IDMovie)
@@ -89,42 +90,33 @@ class ServiceRent:
         :param clientList: list of clients
         :param movieList: list of movies
         """
-        rent1 = self.repoRents.getRent(ID)
         try:
-            newID = int(newID) if newID != "" else None
-            IDClient = int(IDClient) if IDClient != "" else None
-            IDMovie = int(IDMovie) if IDMovie != "" else None
-            day = int(day) if day != "" else None
-            month = int(month) if month != "" else None
-            year = int(year) if year != "" else None
-            returnDay = int(returnDay) if returnDay != "" else None
-            returnMonth = int(returnMonth) if returnMonth != "" else None
-            returnYear = int(returnYear) if returnYear != "" else None
+            newID = int(newID) if newID != "" else self.repoRents.getRent(ID).getID()
+            IDClient = int(IDClient) if IDClient != "" else self.repoRents.getRent(ID).getClientID()
+            IDMovie = int(IDMovie) if IDMovie != "" else self.repoRents.getRent(ID).getMovieID()
+            day = int(day) if day != "" else self.repoRents.getRent(ID).getRentDay()
+            month = int(month) if month != "" else self.repoRents.getRent(ID).getRentMonth()
+            year = int(year) if year != "" else self.repoRents.getRent(ID).getRentYear()
+            returnDay = int(returnDay) if returnDay != "" else self.repoRents.getRent(ID).getReturnDay()
+            returnMonth = int(returnMonth) if returnMonth != "" else self.repoRents.getRent(ID).getReturnMonth()
+            returnYear = int(returnYear) if returnYear != "" else self.repoRents.getRent(ID).getReturnYear()
         except ValueError:
             raise ValueError("All ID, day, month, and year values must be integers or empty strings.")
 
-        rent = Rent.Rent(newID if newID is not None else self.repoRents.getRent(ID).getID(),
-                    IDClient if IDClient is not None else self.repoRents.getRent(ID).getClientID(),
-                    IDMovie if IDMovie is not None else self.repoRents.getRent(ID).getMovieID(),
-                    day if day is not None else self.repoRents.getRent(ID).getRentDay(),
-                    month if month is not None else self.repoRents.getRent(ID).getRentMonth(),
-                    year if year is not None else self.repoRents.getRent(ID).getRentYear())
+        rent = Rent.Rent(newID, IDClient, IDMovie, day, month, year, returnDay, returnMonth, returnYear)
 
-        self.validatorRent.validateRent(rent, clientList, movieList)
-        self.repoRents.modifyRent(rent)
-
-        if returnDay is not None or returnMonth is not None or returnYear is not None:
+        try:
+            self.validatorRent.validateRent(rent, clientList, movieList)
+        except ValueError as ve:
+            raise ValueError(ve)
+        if returnDay != 0 or returnMonth != 0 or returnYear != 0:
             try:
+                self.validatorRent.validateReturnDate(returnDay, returnMonth, returnYear, rent)
+            except ValueError as ve:
+                raise ValueError(ve)
 
-                rent.setReturnDate(
-                returnDay if returnDay is not None else rent1.getReturnDay(),
-                returnMonth if returnMonth is not None else rent1.getReturnMonth(),
-                returnYear if returnYear is not None else rent1.getReturnYear())
+        self.repoRents.modifyRent(rent, ID)
 
-                self.validatorRent.validateReturnDate(rent.getReturnDay(),rent.getReturnMonth(),rent.getReturnYear(), rent)
-                self.repoRents.getRent(ID).setReturnDate(rent.getReturnDay(), rent.getReturnMonth(), rent.getReturnYear())
-            except ValueError:
-                raise ValueError("Return date cannot be in the past.")
 
     def searchRentByClientID(self, ID):
         """
@@ -149,3 +141,21 @@ class ServiceRent:
             raise ValueError("This movie was never rented")
         else:
             return lst
+
+    def generateRentService(self):
+        """
+        Generates a random rent and adds it to the repository
+        """
+
+        randomRent = RandomRent(self.clientRepo, self.movieRepo)
+        ID = 0
+        while True:
+            try:
+                ID = randomRent.generateRandomID()
+                self.repoRents.isIDUnique(ID)
+                break
+            except ValueError:
+                continue
+
+        r = randomRent.generateRandomRent(ID)
+        self.addRentService(r["id"], r["clientID"], r["movieID"], r["rentDay"], r["rentMonth"], r["rentYear"])

@@ -23,42 +23,42 @@ class TestMovie:
         """
         Test function for getID()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         assert movie.getID() == 1
 
     def test_getTitle(self):
         """
         Test function for getTitle()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         assert movie.getTitle() == "The Horse in Motion"
 
     def test_getDescription(self):
         """
         Test function for getDescription()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         assert movie.getDescription() == "First movie ever"
 
     def test_getGenre(self):
         """
         Test function for getGenre()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         assert movie.getGenre() == "Action"
 
     def test_getReleaseYear(self):
         """
         Test function for getReleaseYear()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         assert movie.getReleaseYear() == 1878
 
     def test_setID(self):
         """
         Test function for setID()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         movie.setID(2)
         assert movie.getID() == 2
 
@@ -66,7 +66,7 @@ class TestMovie:
         """
         Test function for setTitle()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         movie.setTitle("The Horse in Motion 2")
         assert movie.getTitle() == "The Horse in Motion 2"
 
@@ -74,7 +74,7 @@ class TestMovie:
         """
         Test function for setDescription()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         movie.setDescription("Second movie ever")
         assert movie.getDescription() == "Second movie ever"
 
@@ -82,7 +82,7 @@ class TestMovie:
         """
         Test function for setGenre()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         movie.setGenre("Comedy")
         assert movie.getGenre() == "Comedy"
 
@@ -90,7 +90,7 @@ class TestMovie:
         """
         Test function for setReleaseYear()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         movie.setReleaseYear(1900)
         assert movie.getReleaseYear() == 1900
 
@@ -98,7 +98,7 @@ class TestMovie:
         """
         Test function for Renting functions
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
 
         movie.wasRented()
         movie.wasRented()
@@ -119,7 +119,7 @@ class TestMovieValidator:
         """
         Test function for validateMovie()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         validator = MovieValidator()
         try:
             validator.validateMovie(movie)
@@ -127,28 +127,28 @@ class TestMovieValidator:
         except ValueError:
             assert False
 
-        movie = Movie(1 , "  ", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "  ", "First movie ever", "Action", 1878, 0)
         try:
             validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True
 
-        movie = Movie(1 , "The Horse in Motion", "  ", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "  ", "Action", 1878, 0)
         try:
             validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True
 
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "  ", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "  ", 1878, 0)
         try:
             validator.validateMovie(movie)
             assert False
         except ValueError:
             assert True
 
-        movie = Movie(1 , "The Horse in Motion" , "First movie ever", "Action", 1877)
+        movie = Movie(1 , "The Horse in Motion" , "First movie ever", "Action", 1877, 0)
         try:
             validator.validateMovie(movie)
             assert False
@@ -175,7 +175,7 @@ class TestRepoMovie:
         lst = MovieList()
         assert lst.isEmpty() == True
 
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie)
         assert lst.isEmpty() == False
 
@@ -184,7 +184,7 @@ class TestRepoMovie:
         Test function for getMovie()
         """
         lst = MovieList()
-        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie)
         assert lst.getMovie(1) == movie
 
@@ -193,7 +193,7 @@ class TestRepoMovie:
         Test function for addMovie()
         """
         lst = MovieList()
-        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie)
         assert lst.getAll() == [movie]
 
@@ -204,7 +204,7 @@ class TestRepoMovie:
         :return:
         """
         lst = MovieList()
-        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie)
         assert lst.isEmpty() == False
         lst.deleteMovie(1)
@@ -215,9 +215,9 @@ class TestRepoMovie:
         Test function for getAll()
         """
         lst = MovieList()
-        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie)
-        movie1 = Movie(2, "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie1 = Movie(2, "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie1)
         assert lst.getAll() == [movie, movie1]
 
@@ -226,9 +226,9 @@ class TestRepoMovie:
         Test function for modifyMovie()
         """
         lst = MovieList()
-        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0)
         lst.addMovie(movie)
-        movie1 = Movie(1, "The Horse in the House", "First movie ever", "Action", 18)
+        movie1 = Movie(1, "The Horse in the House", "First movie ever", "Action", 18, 0)
         lst.modifyMovie(movie1)
         movie = lst.getMovie(1)
         assert movie.getTitle() == movie1.getTitle()

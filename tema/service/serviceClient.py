@@ -109,8 +109,11 @@ class ServiceClient:
 
         return None
 
-
     def generateClientService(self):
+        """
+        Generates a random client and adds it to the repository
+        :return:
+        """
         randomClient = RandomClient()
 
         ID = 0
@@ -132,5 +135,4 @@ class ServiceClient:
                 continue
 
         r = randomClient.generateRandomClient(ID, cnp)
-
         self.addClientService(r["id"], r["firstName"], r["lastName"], r["cnp"])

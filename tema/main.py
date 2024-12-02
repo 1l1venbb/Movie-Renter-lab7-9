@@ -1,12 +1,13 @@
 from domain import Rent
-from repository import rentList
 from testing.test_all import AssembleTests
 from service import serviceClient, serviceRent
 from service import serviceMovie
 import domain.Client as Client
 import domain.Movie as Movie
+from repository.rentList import RentList
 import repository.movieList as movieList
 import repository.clientList as clientList
+import repository.repoMemory as repoMemory
 import ui.terminal as terminal
 
 
@@ -16,17 +17,19 @@ print("Loaded!")
 
 clientValidator = Client.ClientValidator()
 clientRepo = clientList.ClientList()
-clientService = serviceClient.ServiceClient(clientRepo, clientValidator)
+clientMemory = repoMemory.FileRepoClients("clients.txt")
+clientService = serviceClient.ServiceClient(clientMemory, clientValidator)
 
 movieValidator = Movie.MovieValidator()
 movieRepo = movieList.MovieList()
-movieService = serviceMovie.ServiceMovie(movieRepo, movieValidator)
+movieMemory = repoMemory.FileRepoMovies("movies.txt")
+movieService = serviceMovie.ServiceMovie(movieMemory, movieValidator)
 
 rentValidator = Rent.RentValidator()
-rentRepo = rentList.RentList()
-rentService = serviceRent.ServiceRent(rentRepo, rentValidator, movieRepo, clientRepo)
+rentRepo = RentList()
+rentMemory = repoMemory.FileRepoRents("rents.txt")
+rentService = serviceRent.ServiceRent(rentMemory, rentValidator, movieMemory, clientMemory)
 
 UI = terminal.Terminal(clientService, movieService, rentService)
-
 
 UI.run()

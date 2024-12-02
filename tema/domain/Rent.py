@@ -1,8 +1,10 @@
 from calendar import monthrange
+from domain.Eraseable import Erase
 
-class Rent:
 
-    def __init__(self, ID, clientID, movieID, day, month, year):
+class Rent(Erase):
+
+    def __init__(self, ID, clientID, movieID, day, month, year, rday, rmonth, ryear):
         """
         Constructor for Rent class
         :param ID: ID of a renting (int)
@@ -12,11 +14,12 @@ class Rent:
         :param month: Month of renting
         :param year: Year of renting
         """
+        super().__init__()
         self.ID = ID
         self.clientID = clientID
         self.movieID = movieID
         self.rentDate = {"day" : day, "month" : month, "year" : year}
-        self.returnDate = {"day" : 0, "month" : 0, "year" : 0}
+        self.returnDate = {"day" : rday, "month" : rmonth, "year" : ryear}
 
     def __str__(self):
         rent_info = (f"Rent:\n"
@@ -128,6 +131,8 @@ class RentValidator:
         """
         Checks if a rent is valid
         :param rent: Rent object to validate
+        :param clientList: Object from clients repository
+        :param movieList: Object from movies repository
         :raise: ValueError if object is invalid
         """
         if not any(client.getID() == rent.getClientID() for client in clientList):
@@ -155,6 +160,10 @@ class RentValidator:
     def validateReturnDate(self, day, month, year, rent):
         """
         Checks if return date is valid
+        :param day: day of return (int)
+        :param month: month of return (int)
+        :param year: year of return (int)
+        :param rent: Rent object to validate
         :raises: ValueError if return date is invalid
         """
         errors = ""

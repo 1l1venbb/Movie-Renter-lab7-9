@@ -1,4 +1,6 @@
-class Client:
+from domain.Eraseable import Erase
+
+class Client(Erase):
 
     def __init__(self, ID, firstName, lastName, cnp, copiesRented):
         """
@@ -7,6 +9,7 @@ class Client:
         :param lastName: Client's last name (string)
         :param cnp: Client's CNP (int)
         """
+        super().__init__()
         self.attr = {"id" : ID, "firstName" : firstName, "lastName" : lastName, "cnp" : cnp, "copiesRented" : copiesRented}
 
     def __str__(self):
@@ -14,7 +17,8 @@ class Client:
                 f"  ID: {self.attr["id"]}\n"
                 f"  First Name: {self.attr["firstName"]}\n"
                 f"  Last Name: {self.attr["lastName"]}\n"
-                f"  CNP: {self.attr["cnp"]}")
+                f"  CNP: {self.attr["cnp"]}\n"
+                f"  Copies Rented: {self.attr["copiesRented"]}")
 
     def __eq__(self, other):
         if isinstance(other, Client):

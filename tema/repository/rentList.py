@@ -6,6 +6,26 @@ class RentList:
         """
         self.rents = []
 
+    def __len__(self):
+        """
+        Returns the number of rents.
+        :return: int
+        """
+        return len(self.rents)
+
+    def isIDUnique(self, ID):
+        """
+        Checks if an ID is unique and usable
+        :param ID: ID to check
+        :return: True if unique
+        :raise: ValueError if ID is not unique
+        """
+
+        for rent in self.rents:
+            if rent.getID() == ID:
+                raise ValueError("ID already exists")
+        return True
+
     def isEmpty(self):
         """
         Checks if the list is empty
@@ -56,13 +76,16 @@ class RentList:
         """
         return [x for x in self.rents]
 
-    def modifyRent(self, rent):
+    def modifyRent(self, rent, ID):
         """
         Modifies a rent in the list of rents
         :param rent: Rent object
+        :param ID: ID of the rent to modify
         """
 
-        actualRent = self.getRent(rent.getID())
+        actualRent = self.getRent(ID)
+        actualRent.setID(rent.getID())
         actualRent.setClientID(rent.getClientID())
         actualRent.setMovieID(rent.getMovieID())
         actualRent.setRentDate(rent.getRentDay(), rent.getRentMonth(), rent.getRentYear())
+        actualRent.setReturnDate(rent.getReturnDay(), rent.getReturnMonth(), rent.getReturnYear())

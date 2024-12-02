@@ -23,28 +23,28 @@ class TestRent:
         """
         Test function for getID()
         """
-        rent = Rent(2, 1, 1, 12,10, 2024)
+        rent = Rent(2, 1, 1, 12,10, 2024, 0, 0, 0)
         assert rent.getID() == 2
 
     def test_getClientID(self):
         """
         Test function for getClientID()
         """
-        rent = Rent(1, 2, 1, 12, 10, 2024)
+        rent = Rent(1, 2, 1, 12, 10, 2024, 0, 0, 0)
         assert rent.getClientID() == 2
 
     def test_getMovieID(self):
         """
         Test function for getMovieID()
         """
-        rent = Rent(1, 1, 2, 12, 10, 2024)
+        rent = Rent(1, 1, 2, 12, 10, 2024, 0, 0 ,0)
         assert rent.getMovieID() == 2
 
     def test_getRentDate(self):
         """
         Test function for getRentDate()
         """
-        rent = Rent(1, 1, 1, 12, 10, 2024)
+        rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0 ,0)
         assert rent.getRentDay() == 12
         assert rent.getRentMonth() == 10
         assert rent.getRentYear() == 2024
@@ -53,7 +53,7 @@ class TestRent:
         """
         Test function for getReturnDate()
         """
-        rent = Rent(1, 1, 1, 12, 10, 2024)
+        rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0, 0)
         rent.setReturnDate(13, 11, 2024)
         assert rent.getReturnDay() == 13
         assert rent.getReturnMonth() == 11
@@ -63,7 +63,7 @@ class TestRent:
         """
         Test function for setID()
         """
-        rent = Rent(2, 1, 1, 12, 10, 2024)
+        rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0)
         rent.setID(3)
         assert rent.getID() == 3
 
@@ -72,7 +72,7 @@ class TestRent:
         Test function for setClientID()
         """
 
-        rent = Rent(1, 2, 1, 12, 10, 2024)
+        rent = Rent(1, 2, 1, 12, 10, 2024, 0, 0, 0)
         rent.setClientID(3)
         assert rent.getClientID() == 3
 
@@ -80,7 +80,7 @@ class TestRent:
         """
         Test function for setMovieID()
         """
-        rent = Rent(1, 1, 2, 12, 10, 2024)
+        rent = Rent(1, 1, 2, 12, 10, 2024, 0, 0, 0)
         rent.setMovieID(3)
         assert rent.getMovieID() == 3
 
@@ -88,7 +88,7 @@ class TestRent:
         """
         Test function for setRentDate()
         """
-        rent = Rent(1, 1, 1, 12, 10, 2024)
+        rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0, 0)
         rent.setRentDate(13, 11, 2024)
         assert rent.getRentDay() == 13
         assert rent.getRentMonth() == 11
@@ -98,7 +98,7 @@ class TestRent:
         """
         Test function for setReturnDate()
         """
-        rent = Rent(2, 1, 1, 12, 10, 2024)
+        rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0)
         rent.setReturnDate(13, 11, 2024)
         assert rent.getReturnDay() == 13
         assert rent.getReturnMonth() == 11
@@ -110,14 +110,15 @@ class TestRentValidator:
         Runs all tests
         """
         self.test_validateRent()
+        self.test_validateReturnDate()
 
     def test_validateRent(self):
         """
         Test function for validateRent()
         """
-        client = Client(1 , "Ion", "Popescu" , 1231231230321)
-        movie = Movie(1 , "Mos Craciun", "Xmas Movie", "Adventure", 1997)
-        rent = Rent(2, 1, 1, 12, 10, 2024)
+        client = Client(1 , "Ion", "Popescu" , 1231231230321, 0)
+        movie = Movie(1 , "Mos Craciun", "Xmas Movie", "Adventure", 1997, 0)
+        rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0)
         clients = []
         movies = []
         clients.append(client)
@@ -134,7 +135,7 @@ class TestRentValidator:
         """
         Test function for validateReturnDate()
         """
-        rent = Rent(2, 1, 1, 12, 10, 2024)
+        rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0)
         validator = RentValidator()
         try:
             validator.validateReturnDate(13, 11, 2024, rent)

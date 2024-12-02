@@ -1,4 +1,6 @@
 from domain import Movie
+from utils.randomMovie import RandomMovie
+
 
 class ServiceMovie:
 
@@ -115,3 +117,23 @@ class ServiceMovie:
             raise ValueError
         else:
             return lst
+
+    def generateMovieService(self):
+        """
+        Generates a random movie and adds it to the repository
+        """
+
+        randomMovie = RandomMovie()
+
+        ID = 0
+
+        while True:
+            try:
+                ID = randomMovie.generateRandomID()
+                self.repoMovie.isIDUnique(ID)
+                break
+            except ValueError:
+                continue
+
+        m = randomMovie.generateRandomMovie(ID)
+        self.addMovieService(m["id"], m["title"], m["description"], m["genre"], m["releaseYear"])

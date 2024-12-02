@@ -1,4 +1,6 @@
-class Movie:
+from domain.Eraseable import Erase
+
+class Movie(Erase):
 
     def __init__(self, ID, title, description, genre, releaseYear, copiesRented):
         """
@@ -9,6 +11,8 @@ class Movie:
         :param genre: Genre of movie (string)
         :param releaseYear: The year of release of the movie (int)
         """
+
+        super().__init__()
 
         self.ID = ID
         self.title = title

@@ -23,17 +23,22 @@ class Terminal:
             "modify_movie":self.uiModifyMovie,
             "modify_rent":self.uiModifyRent,
 
+
+            "search_client_by_id":self.uiSearchClientByID,
             "search_client_by_first_name":self.uiSearchClientByFirstName,
             "search_client_by_last_name":self.uiSearchClientByLastName,
             "search_client_by_cnp":self.uiSearchClientByCNP,
+            "search_movie_by_id":self.uiSearchMovieByID,
             "search_movie_by_title":self.uiSearchMovieByTitle,
             "search_movie_by_genre":self.uiSearchMovieByGenre,
             "search_movie_by_release_year":self.uiSearchMovieByReleaseYear,
+            "search_rent_by_id":self.uiSearchRentByID,
             "search_rent_by_client_id":self.uiSearchRentByClientID,
             "search_rent_by_movie_id":self.uiSearchRentByMovieID,
 
-            "generate_clients":self.uiGenerateClients
-
+            "generate_clients":self.uiGenerateClients,
+            "generate_movies":self.uiGenerateMovies,
+            "generate_rents":self.uiGenerateRents
 
         }
 
@@ -122,7 +127,6 @@ class Terminal:
     def uiAddReturn(self):
         """
         Marks a rented movie as returned
-        :return:
         """
 
         try:
@@ -148,8 +152,6 @@ class Terminal:
             self.RentService.addReturnService(ID, day, month, year)
         except Exception as e:
             print(e)
-
-
 
     def uiPrintClients(self):
         """
@@ -306,6 +308,41 @@ class Terminal:
 
         self.RentService.modifyRentService(ID, newID, clientID, movieID, rentDay, rentMonth, rentYear, returnDay, returnMonth, returnYear, self.ClientService.getAllClientsService(), self.MovieService.getAllMoviesService())
 
+    def uiSearchClientByID(self):
+        """
+        UI function for searching a client by ID
+        """
+        while True:
+            try:
+                ID = int(input("Enter the client ID to search for:"))
+                break
+            except ValueError:
+                print("Invalid ID")
+
+        client = self.ClientService.getClientService(ID)
+        if client is not None:
+            print(client)
+        else:
+            print("Client not found")
+
+    def uiSearchMovieByID(self):
+        """
+        UI function for searching a movie by ID
+        """
+        while True:
+            try:
+                ID = int(input("Enter the movie ID to search for:"))
+                break
+            except ValueError:
+                print("Invalid ID")
+
+        movie = self.MovieService.getMovieService(ID)
+
+        if movie is not None:
+            print(movie)
+        else:
+            print("Movie not found")
+
     def uiSearchClientByFirstName(self):
         """
         UI function for searching a client by first name
@@ -426,6 +463,22 @@ class Terminal:
         for movie in movies:
             print(movie)
 
+    def uiSearchRentByID(self):
+        """
+        UI function for searching a rent by rent ID
+        """
+        while True:
+            try:
+                ID = int(input("Enter the rent ID to search for:"))
+                break
+            except ValueError:
+                print("Invalid ID")
+        rent = self.RentService.getRentService(ID)
+        if rent is not None:
+            print(rent)
+        else:
+            print("Rent not found")
+
     def uiSearchRentByClientID(self):
         """
         UI function for searching a rent by client ID
@@ -481,6 +534,35 @@ class Terminal:
         for i in range(count):
             self.ClientService.generateClientService()
 
+    def uiGenerateMovies(self):
+        """
+        UI function for generating movies
+        """
+        while True:
+            try:
+                count = int(input("Enter the number of movies you want to generate:"))
+                break
+            except ValueError:
+                print("Invalid number of movies.")
+
+        for i in range(count):
+            self.MovieService.generateMovieService()
+
+    def uiGenerateRents(self):
+        """
+        UI function for generating rents
+        :return:
+        """
+
+        while True:
+            try:
+                count = int(input("Enter the number of rents you want to generate:"))
+                break
+            except ValueError:
+                print("Invalid number of rents.")
+
+        for i in range(count):
+            self.RentService.generateRentService()
 
     def run(self):
         """

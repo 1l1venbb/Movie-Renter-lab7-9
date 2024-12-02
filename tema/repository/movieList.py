@@ -57,7 +57,6 @@ class MovieList:
         movie = self.getMovie(ID)
         if movie is not None:
                 self.movies.remove(movie)
-
         else:
             raise Exception("Movie does not exist")
 
@@ -80,3 +79,15 @@ class MovieList:
         actualMovie.setGenre(movie.getGenre())
         actualMovie.setReleaseYear(movie.getReleaseYear())
 
+    def isIDUnique(self, ID):
+        """
+        Checks if an ID is unique and usable
+        :param ID: ID to check
+        :return: True if unique
+        :raises: ValueError if ID already exists
+        """
+
+        for movie in self.movies:
+            if movie.getID() == ID:
+                raise ValueError("ID already exists")
+        return True
