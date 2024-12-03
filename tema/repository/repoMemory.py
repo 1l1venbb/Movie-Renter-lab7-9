@@ -44,7 +44,8 @@ class FileRepoClients(ClientList):
                     lastName = parts[2].strip()
                     cnp = parts[3].strip()
                     copiesRented = int(parts[4].strip())
-                    client = Client(ID, firstName, lastName, cnp, copiesRented)
+                    isDeleted = parts[5].strip()
+                    client = Client(ID, firstName, lastName, cnp, copiesRented, isDeleted)
                     self.clients.append(client)
 
     def writeToFile(self):
@@ -53,7 +54,7 @@ class FileRepoClients(ClientList):
         """
         with open(self.file_name, 'w') as f:
             for client in self.clients:
-                f.write(f"{str(client.getID())},{client.getFirstName()},{client.getLastName()},{client.getCNP()},{str(client.getCopiesRented())} \n")
+                f.write(f"{str(client.getID())},{client.getFirstName()},{client.getLastName()},{client.getCNP()},{str(client.getCopiesRented())},{str(client.isErased())}\n")
 
     def addClient(self, client):
         """
@@ -62,7 +63,11 @@ class FileRepoClients(ClientList):
         """
         self.readFromFile()
         ClientList.addClient(self, client)
+        for cl in self.clients:
+            print(cl.isErased())
         self.writeToFile()
+
+
 
     def getAll(self):
         """
@@ -85,6 +90,22 @@ class FileRepoClients(ClientList):
         self.readFromFile()
         ClientList.modifyClient(self, client)
         self.writeToFile()
+
+    def deleteClient(self, ID):
+        """
+        Marks a client as deleted.
+        :param ID: ID of the client to delete
+        :raises: Exception if client does not exist
+        """
+
+        self.readFromFile()
+        for client in self.clients:
+            if client.getID() == ID:
+                client.delete()
+                self.writeToFile()
+                return
+
+        raise Exception("Client does not exist")
 
 class FileRepoMovies(MovieList):
 
@@ -126,7 +147,8 @@ class FileRepoMovies(MovieList):
                     genre = parts[3].strip()
                     releaseYear = int(parts[4].strip())
                     copiesRented = int(parts[5].strip())
-                    movie = Movie(ID, title, description, genre, releaseYear, copiesRented)
+                    isDeleted = parts[6].strip()
+                    movie = Movie(ID, title, description, genre, releaseYear, copiesRented, isDeleted)
                     self.movies.append(movie)
 
     def writeToFile(self):
@@ -135,7 +157,7 @@ class FileRepoMovies(MovieList):
         """
         with open(self.file_name, 'w') as f:
             for movie in self.movies:
-                f.write(f"{str(movie.getID())},{movie.getTitle()},{movie.getDescription()},{movie.getGenre()},{movie.getReleaseYear()},{movie.getCopiesRented()} \n")
+                f.write(f"{str(movie.getID())},{movie.getTitle()},{movie.getDescription()},{movie.getGenre()},{movie.getReleaseYear()},{movie.getCopiesRented()},{movie.isErased()} \n")
 
     def addMovie(self, movie):
         """
@@ -168,6 +190,22 @@ class FileRepoMovies(MovieList):
         self.readFromFile()
         MovieList.modifyMovie(self, movie)
         self.writeToFile()
+
+    def deleteMovie(self, ID):
+        """
+        Marks a movie as deleted.
+        :param ID: ID of the movie to delete
+        :raises: Exception if movie does not exist
+        """
+
+        self.readFromFile()
+        for movie in self.movies:
+            if movie.getID() == ID:
+                movie.delete()
+                self.writeToFile()
+                return
+
+        raise Exception("Movie does not exist")
 
 class FileRepoRents(RentList):
 
@@ -212,7 +250,8 @@ class FileRepoRents(RentList):
                     returnDay = int(parts[6].strip())
                     returnMonth = int(parts[7].strip())
                     returnYear = int(parts[8].strip())
-                    rent = Rent(ID, clientID, movieID, rentDay, rentMonth, rentYear, returnDay, returnMonth, returnYear)
+                    isDeleted = parts[9].strip()
+                    rent = Rent(ID, clientID, movieID, rentDay, rentMonth, rentYear, returnDay, returnMonth, returnYear, isDeleted)
                     self.rents.append(rent)
 
     def writeToFile(self):
@@ -221,7 +260,7 @@ class FileRepoRents(RentList):
         """
         with open(self.file_name, 'w') as f:
             for rent in self.rents:
-                f.write(f"{str(rent.getID())},{str(rent.getClientID())},{str(rent.getMovieID())},{str(rent.getRentDay())},{str(rent.getRentMonth())},{str(rent.getRentYear())},{str(rent.getReturnDay())},{str(rent.getReturnMonth())},{str(rent.getReturnYear())} \n")
+                f.write(f"{str(rent.getID())},{str(rent.getClientID())},{str(rent.getMovieID())},{str(rent.getRentDay())},{str(rent.getRentMonth())},{str(rent.getRentYear())},{str(rent.getReturnDay())},{str(rent.getReturnMonth())},{str(rent.getReturnYear())},{str(rent.isErased())} \n")
 
     def addRent(self, rent):
         """
@@ -252,3 +291,18 @@ class FileRepoRents(RentList):
         self.readFromFile()
         RentList.modifyRent(self, rent, ID)
         self.writeToFile()
+
+    def deleteRent(self, ID):
+        """
+        Marks a rent as deleted.
+        :param ID: ID of the rent to delete
+        :raises: Exception if rent does not exist
+        """
+        self.readFromFile()
+        for rent in self.rents:
+            if rent.getID() == ID:
+                rent.delete()
+                self.writeToFile()
+                return
+
+        raise Exception("Rent does not exist")

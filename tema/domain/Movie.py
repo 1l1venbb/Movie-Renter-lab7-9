@@ -2,7 +2,7 @@ from domain.Eraseable import Erase
 
 class Movie(Erase):
 
-    def __init__(self, ID, title, description, genre, releaseYear, copiesRented):
+    def __init__(self, ID, title, description, genre, releaseYear, copiesRented, isDeleted):
         """
         Constructor for Movie class
         :param ID: ID of movie (int)
@@ -12,7 +12,7 @@ class Movie(Erase):
         :param releaseYear: The year of release of the movie (int)
         """
 
-        super().__init__()
+        super().__init__(isDeleted)
 
         self.ID = ID
         self.title = title

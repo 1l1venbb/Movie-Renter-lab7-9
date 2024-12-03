@@ -76,6 +76,7 @@ class ClientList:
             raise Exception("Client ID already exists")
         else:
             #client.setID(self.getNewID())
+
             self.clients.append(client)
 
     def deleteClient(self, ID):

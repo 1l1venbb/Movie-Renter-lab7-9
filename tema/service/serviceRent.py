@@ -21,13 +21,18 @@ class ServiceRent:
         :param year: year of rent
         """
         try:
-            rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year, 0, 0, 0)
+            rent = Rent.Rent(ID, IDClient, IDMovie, day, month, year, 0, 0, 0, False)
             self.validatorRent.validateRent(rent, self.clientRepo.getAll(), self.movieRepo.getAll())
             self.repoRents.addRent(rent)
+
             movie = self.movieRepo.getMovie(IDMovie)
             movie.wasRented()
+            self.movieRepo.writeToFile()
+
             client = self.clientRepo.getClient(IDClient)
             client.rented()
+            self.clientRepo.writeToFile()
+
         except ValueError as ve:
             raise ValueError(ve)
 
@@ -103,7 +108,7 @@ class ServiceRent:
         except ValueError:
             raise ValueError("All ID, day, month, and year values must be integers or empty strings.")
 
-        rent = Rent.Rent(newID, IDClient, IDMovie, day, month, year, returnDay, returnMonth, returnYear)
+        rent = Rent.Rent(newID, IDClient, IDMovie, day, month, year, returnDay, returnMonth, returnYear, False)
 
         try:
             self.validatorRent.validateRent(rent, clientList, movieList)

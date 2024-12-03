@@ -1,6 +1,6 @@
 class Erase:
-    def __init__(self):
-        self.isDeleted = False
+    def __init__(self, isDeleted):
+        self.isDeleted = isDeleted
 
     def isErased(self):
         """

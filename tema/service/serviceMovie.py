@@ -22,7 +22,7 @@ class ServiceMovie:
         :param genre: Genre of the movie
         :param releaseYear: Release year of the movie
         """
-        movie = Movie.Movie(ID, title, description, genre, releaseYear, 0)
+        movie = Movie.Movie(ID, title, description, genre, releaseYear, 0, False)
         self.validatorMovie.validateMovie(movie)
         self.repoMovie.addMovie(movie)
 
@@ -57,7 +57,7 @@ class ServiceMovie:
         :param genre: New genre(str)
         :param releaseYear: New release year(int between 1878 and 2024)
         """
-        movie = Movie.Movie(ID, title, description, genre, releaseYear, 0)
+        movie = Movie.Movie(ID, title, description, genre, releaseYear, 0, False)
         if movie is not None:
             if title != "":
                 movie.setTitle(title)
@@ -137,3 +137,24 @@ class ServiceMovie:
 
         m = randomMovie.generateRandomMovie(ID)
         self.addMovieService(m["id"], m["title"], m["description"], m["genre"], m["releaseYear"])
+
+    def showMostRentedMoviesService(self):
+        """
+        Service for showing the most rented movies
+        """
+        lst = []
+        for movie in self.repoMovie.getAll():
+            lst.append(movie)
+
+        lst.sort(key = lambda x: x.getCopiesRented(), reverse=True)
+        return [lst[0], lst[1], lst[2]]
+
+    def showLeastRentedMoviesService(self):
+        """
+        Service for showing the least rented movies
+        """
+        lst = []
+        for movie in self.repoMovie.getAll():
+            lst.append(movie)
+        lst.sort(key=lambda x: x.getCopiesRented(), reverse=False)
+        return [lst[0], lst[1], lst[2]]

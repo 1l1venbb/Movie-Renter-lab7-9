@@ -2,14 +2,14 @@ from domain.Eraseable import Erase
 
 class Client(Erase):
 
-    def __init__(self, ID, firstName, lastName, cnp, copiesRented):
+    def __init__(self, ID, firstName, lastName, cnp, copiesRented, isDeleted):
         """
         Constructor for Client class
         :param firstName: Client's first name (string)
         :param lastName: Client's last name (string)
         :param cnp: Client's CNP (int)
         """
-        super().__init__()
+        super().__init__(isDeleted)
         self.attr = {"id" : ID, "firstName" : firstName, "lastName" : lastName, "cnp" : cnp, "copiesRented" : copiesRented}
 
     def __str__(self):

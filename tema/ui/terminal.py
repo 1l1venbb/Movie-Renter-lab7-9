@@ -38,8 +38,13 @@ class Terminal:
 
             "generate_clients":self.uiGenerateClients,
             "generate_movies":self.uiGenerateMovies,
-            "generate_rents":self.uiGenerateRents
+            "generate_rents":self.uiGenerateRents,
 
+            "sort_renting_clients":self.uiSortRentingClients,
+            "sort_clients_by_rents":self.sortClientsByRents,
+            "show_most_rented_movies":self.uiShowMostRentedMovies,
+            "top_30%_clients":self.uiTop30pClients,
+            "show_least_rented_movies":self.uiShowLeastRentedMovies
         }
 
     def uiAddClient(self):
@@ -163,7 +168,8 @@ class Terminal:
             print("There are no clients")
 
         for client in clients:
-            print(client)
+            if client.isDeleted == "False" or client.isDeleted == False:
+                print(client)
 
     def uiPrintMovies(self):
         """
@@ -175,7 +181,8 @@ class Terminal:
             print("There are no movies")
 
         for movie in movies:
-            print(movie)
+            if movie.isDeleted == "False" or  movie.isDeleted == False:
+                print(movie)
 
     def uiPrintRents(self):
         """
@@ -187,7 +194,8 @@ class Terminal:
             print("There are no rents")
 
         for rent in rents:
-            print(rent)
+            if not rent.isDeleted or rent.isDeleted == "False":
+                print(rent)
 
     def uiDeleteClient(self):
         """
@@ -563,6 +571,50 @@ class Terminal:
 
         for i in range(count):
             self.RentService.generateRentService()
+
+    def uiSortRentingClients(self):
+        """
+        UI function for sorting clients that are currently renting movies
+        """
+
+        lst = self.ClientService.sortRentingClientsService()
+        for client in lst:
+            print(client)
+
+    def sortClientsByRents(self):
+        """
+        UI function for sorting clients by the amount of movies rented
+        """
+
+        lst = self.ClientService.sortClientsByRentsService()
+        for client in lst:
+            print(client)
+
+    def uiShowMostRentedMovies(self):
+        """
+        UI function for showing most rented movies
+        """
+        lst = self.MovieService.showMostRentedMoviesService()
+        for movie in lst:
+            print(movie)
+
+    def uiTop30pClients(self):
+        """
+        UI function for calculating the top 30 percent clients
+        """
+
+        lst = self.ClientService.top30pClientsService()
+        for client in lst:
+            print(client)
+
+    def uiShowLeastRentedMovies(self):
+        """
+        UI function for showing least rented movies
+        """
+        lst = self.MovieService.showLeastRentedMoviesService()
+        for movie in lst:
+            print(movie)
+
 
     def run(self):
         """

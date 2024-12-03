@@ -20,7 +20,7 @@ class ServiceClient:
         :param lastName: Last name of the client (str)
         :param cnp: CNP of the client (str len()=13)
         """
-        client = Client.Client(ID, firstName, lastName, cnp, 0)
+        client = Client.Client(ID, firstName, lastName, cnp, 0, False)
         self.validatorClient.validateClient(client)
         self.repoClient.addClient(client)
 
@@ -53,7 +53,7 @@ class ServiceClient:
         :param lastName: New last name(str)
         :param cnp: New cnp(int)
         """
-        client = Client.Client(ID, firstName, lastName, cnp, 0)
+        client = Client.Client(ID, firstName, lastName, cnp, 0, False)
         if client is not None:
             if firstName != "":
                 client.setFirstName(firstName)
@@ -136,3 +136,45 @@ class ServiceClient:
 
         r = randomClient.generateRandomClient(ID, cnp)
         self.addClientService(r["id"], r["firstName"], r["lastName"], r["cnp"])
+
+    def sortRentingClientsService(self):
+        """
+        Service for sorting clients that are currently renting movies
+        :return:
+        """
+
+        lst = []
+        for client in self.repoClient.getAll():
+            if client.getCopiesRented() > 0:
+                lst.append(client)
+
+        lst.sort(key=lambda x: x.getFirstName(), reverse=False)
+
+        return lst
+
+    def sortClientsByRentsService(self):
+        """
+        Service for sorting clients by number of current rents
+        """
+        lst = []
+        for client in self.repoClient.getAll():
+            lst.append(client)
+
+        lst.sort(key=lambda x: x.getCopiesRented(), reverse=True)
+        return lst
+
+    def top30pClientsService(self):
+        """
+        Service for calculating top 30% clients
+        """
+
+        lst = []
+        for client in self.repoClient.getAll():
+            lst.append(client)
+
+        lst.sort(key=lambda x: x.getCopiesRented(), reverse=True)
+        length = int(len(lst) * 0.3)
+
+        return lst[:length]
+
+

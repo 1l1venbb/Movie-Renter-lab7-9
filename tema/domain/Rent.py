@@ -4,7 +4,7 @@ from domain.Eraseable import Erase
 
 class Rent(Erase):
 
-    def __init__(self, ID, clientID, movieID, day, month, year, rday, rmonth, ryear):
+    def __init__(self, ID, clientID, movieID, day, month, year, rday, rmonth, ryear, isDeleted):
         """
         Constructor for Rent class
         :param ID: ID of a renting (int)
@@ -14,7 +14,7 @@ class Rent(Erase):
         :param month: Month of renting
         :param year: Year of renting
         """
-        super().__init__()
+        super().__init__(isDeleted)
         self.ID = ID
         self.clientID = clientID
         self.movieID = movieID

@@ -22,35 +22,35 @@ class TestClient:
         """
         Test function for getID()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890123', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890123', 0, False)
         assert client.getID() == 1
 
     def test_getFirstName(self):
         """
         Test function for getFirstName()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890', 0, False)
         assert client.getFirstName() == "Ion"
 
     def test_getLastName(self):
         """
         Test function for getLastName()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890', 0, False)
         assert client.getLastName() == "Popescu"
 
     def test_getCNP(self):
         """
         Test function for getCNP()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890', 0, False)
         assert client.getCNP() == "1234567890"
 
     def test_setFirstName(self):
         """
         Test function for setFirstName()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890', 0, False)
         client.setFirstName("Iulian")
         assert client.getFirstName() == "Iulian"
 
@@ -58,7 +58,7 @@ class TestClient:
         """
         Test function for setLastName()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890', 0, False)
         client.setLastName("Pop")
         assert client.getLastName() == "Pop"
 
@@ -66,7 +66,7 @@ class TestClient:
         """
         Test function for setCNP()
         """
-        client = Client(1, "Ion" , "Popescu", '1234567890', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890', 0, False)
         client.setCNP('1234567890123')
         assert client.getCNP() == '1234567890123'
 
@@ -80,7 +80,7 @@ class TestClientValidator:
 
     def test_validateClient(self):
 
-        client = Client(1, "Ion" , "Popescu", '1234567890123', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890123', 0, False)
         validator = ClientValidator()
         try:
             validator.validateClient(client)
@@ -88,28 +88,28 @@ class TestClientValidator:
         except ValueError:
             assert False
 
-        client = Client(1, "Ion" , "Popescu", '123456789012', 0)
+        client = Client(1, "Ion" , "Popescu", '123456789012', 0, False)
         try:
             validator.validateClient(client)
             assert False
         except ValueError:
             assert True
 
-        client = Client(1, "Ion" , "Popescu", '123456789012a', 0)
+        client = Client(1, "Ion" , "Popescu", '123456789012a', 0, False)
         try:
             validator.validateClient(client)
             assert False
         except ValueError:
             assert True
 
-        client = Client(1, "Ion" , "Popescu", '', 0)
+        client = Client(1, "Ion" , "Popescu", '', 0, False)
         try:
             validator.validateClient(client)
             assert False
         except ValueError:
             assert True
 
-        client = Client(1 , " ", "Popescu", '1234567890123', 0)
+        client = Client(1 , " ", "Popescu", '1234567890123', 0, False)
 
         try:
             validator.validateClient(client)
@@ -137,7 +137,7 @@ class TestRepoClient:
         lst = ClientList()
         assert lst.isEmpty() == True
 
-        client = Client(1, "Ion", "Popescu", '1234567890123', 0)
+        client = Client(1, "Ion", "Popescu", '1234567890123', 0, False)
         lst.addClient(client)
         assert lst.isEmpty() == False
 
@@ -146,7 +146,7 @@ class TestRepoClient:
         Test function for getClient()
         """
         lst = ClientList()
-        client = Client(1, "Ion", "Popescu", '1234567890123', 0)
+        client = Client(1, "Ion", "Popescu", '1234567890123', 0, False)
         lst.addClient(client)
         assert lst.getClient(1) == client
 
@@ -155,7 +155,7 @@ class TestRepoClient:
         Test function for addClient()
         """
         lst = ClientList()
-        client = Client(1, "Ion", "Popescu", '1234567890', 0)
+        client = Client(1, "Ion", "Popescu", '1234567890', 0, False)
         lst.addClient(client)
         assert lst.getAll() == [client]
 
@@ -164,7 +164,7 @@ class TestRepoClient:
         Test function for deleteClient()
         """
         lst = ClientList()
-        client = Client(1, "Ion", "Popescu", '1234567890', 0)
+        client = Client(1, "Ion", "Popescu", '1234567890', 0, False)
         lst.addClient(client)
         lst.deleteClient(1)
         assert lst.isEmpty() == True
@@ -174,9 +174,9 @@ class TestRepoClient:
         Test function for getAll()
         """
         lst = ClientList()
-        client = Client(1, "Ion", "Popescu", '1234567890', 0)
+        client = Client(1, "Ion", "Popescu", '1234567890', 0, False)
         lst.addClient(client)
-        client1 = Client(2, "Ion", "Popescu", '1234567890', 0)
+        client1 = Client(2, "Ion", "Popescu", '1234567890', 0, False)
         lst.addClient(client1)
         assert lst.getAll() == [client, client1]
 
@@ -185,9 +185,9 @@ class TestRepoClient:
         Test function for modifyClient()
         """
         lst = ClientList()
-        client = Client(1, "Ion", "Popescu", '1234567890', 0)
+        client = Client(1, "Ion", "Popescu", '1234567890', 0, False)
         lst.addClient(client)
-        client1 = Client(1, "Ion", "Pope", '1234567890123', 0)
+        client1 = Client(1, "Ion", "Pope", '1234567890123', 0, False)
         lst.modifyClient(client1)
         assert client.getCNP() == client1.getCNP()
         assert client.getLastName() == client1.getLastName()
@@ -220,8 +220,8 @@ class TestClientService:
         clientValidator = ClientValidator()
         clientRepo = ClientList()
         service = ServiceClient(clientRepo, clientValidator)
-        client = Client(1, "Ion" , "Popescu", '1234567890321', 0)
-        client1 = Client(2, "Ion", "Popescu", '1234567890123', 0)
+        client = Client(1, "Ion" , "Popescu", '1234567890321', 0, False)
+        client1 = Client(2, "Ion", "Popescu", '1234567890123', 0, False)
 
         service.addClientService(1, "Ion" , "Popescu", '1234567890321')
         service.addClientService(2, "Ion", "Popescu", '1234567890123')
