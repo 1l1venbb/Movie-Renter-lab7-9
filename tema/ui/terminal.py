@@ -28,10 +28,12 @@ class Terminal:
             "search_client_by_first_name":self.uiSearchClientByFirstName,
             "search_client_by_last_name":self.uiSearchClientByLastName,
             "search_client_by_cnp":self.uiSearchClientByCNP,
+
             "search_movie_by_id":self.uiSearchMovieByID,
             "search_movie_by_title":self.uiSearchMovieByTitle,
             "search_movie_by_genre":self.uiSearchMovieByGenre,
             "search_movie_by_release_year":self.uiSearchMovieByReleaseYear,
+
             "search_rent_by_id":self.uiSearchRentByID,
             "search_rent_by_client_id":self.uiSearchRentByClientID,
             "search_rent_by_movie_id":self.uiSearchRentByMovieID,
@@ -41,7 +43,7 @@ class Terminal:
             "generate_rents":self.uiGenerateRents,
 
             "sort_renting_clients":self.uiSortRentingClients,
-            "sort_clients_by_rents":self.sortClientsByRents,
+            "sort_clients_by_rents":self.uiSortClientsByRents,
             "show_most_rented_movies":self.uiShowMostRentedMovies,
             "top_30%_clients":self.uiTop30pClients,
             "show_least_rented_movies":self.uiShowLeastRentedMovies
@@ -581,7 +583,7 @@ class Terminal:
         for client in lst:
             print(client)
 
-    def sortClientsByRents(self):
+    def uiSortClientsByRents(self):
         """
         UI function for sorting clients by the amount of movies rented
         """

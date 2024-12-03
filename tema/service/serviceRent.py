@@ -49,14 +49,19 @@ class ServiceRent:
             self.validatorRent.validateReturnDate(day, month, year, rent)
             rent.setReturnDate(day, month, year)
             self.repoRents.modifyRent(rent)
+
             movieID = self.repoRents.getRent(ID).getMovieID()
             movie = self.movieRepo.getMovie(movieID)
             movie.wasReturned()
+            self.movieRepo.writeToFile()
+
             clientID = self.repoRents.getRent(ID).getClientID()
             client = self.clientRepo.getClient(clientID)
             client.returned()
-        except ValueError:
-            raise ValueError("Return date cannot be in the past.")
+            self.clientRepo.writeToFile()
+
+        except ValueError as ve:
+            raise ValueError(ve)
 
     def getAllRentsService(self):
         """
