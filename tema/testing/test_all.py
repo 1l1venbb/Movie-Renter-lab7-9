@@ -1,30 +1,25 @@
-from . import test_client, test_rent
-from . import test_movie
-from . import test_utils
+import unittest
+from testing import test_client
+from testing import test_movie
+from testing import test_rent
+from testing import test_utils
 
-class AssembleTests:
-    @staticmethod
-    def testAll():
-       testClient = test_client.TestClient()
-       testClient.run_all_tests()
-       testClient = test_client.TestClientValidator()
-       testClient.run_all_tests()
-       testClient = test_client.TestRepoClient()
-       testClient.run_all_tests()
-       testClient = test_client.TestClientService()
-       testClient.run_all_tests()
 
-       testMovie = test_movie.TestMovie()
-       testMovie.run_all_tests()
-       testMovie = test_movie.TestMovieValidator()
-       testMovie.run_all_tests()
-       testMovie = test_movie.TestRepoMovie()
-       testMovie.run_all_tests()
+def assemble_and_run_tests():
+    # Creating a test suite
+    suite = unittest.TestSuite()
 
-       testRent = test_rent.TestRent()
-       testRent.run_all_tests()
-       testRentValidator = test_rent.TestRentValidator()
-       testRentValidator.run_all_tests()
+    # Adding test classes to the suite
+    # Assuming you have test cases with `unittest.TestCase` in individual modules
+    suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_client))
+    suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_movie))
+    suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_rent))
+    suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(test_utils))
 
-       testUtils = test_utils.TestRandomClient()
-       testUtils.run_all_tests()
+    # Running the test suite
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
+
+
+if __name__ == '__main__':
+    assemble_and_run_tests()

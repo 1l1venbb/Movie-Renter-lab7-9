@@ -65,15 +65,13 @@ class ClientList:
             return 0
         return self.clients[-1].id + 1
 
-
-
     def addClient(self, client):
         """
         Adds a client to the list of clients
         :param client: Client object
         """
         if self.getClient(client.getID()) is not None:
-            raise Exception("Client ID already exists")
+            raise ValueError("Client ID already exists")
         else:
             #client.setID(self.getNewID())
 
@@ -91,7 +89,7 @@ class ClientList:
             self.clients.remove(client)
 
         else:
-            raise Exception("Client does not exist")
+            raise ValueError("Client does not exist")
 
     def getAll(self):
         """

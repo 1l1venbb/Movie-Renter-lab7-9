@@ -1,5 +1,15 @@
 366519,Morbius,The funniest movie ever made,Romance,1878,0,False 
-828712,1917,The funniest movie ever made,Action,1975,0,False 
-685288,Morbius,The coolest movie ever made,Sci-fi,1975,0,False 
-413408,Morbius,The saddest movie ever made,Action,2019,0,False 
-961070,Morbius,The saddest movie ever made,Romance,2022,5,False 
+828712,1917,The funniest movie ever made,Action,1975,1,False 
+685288,Morbius,The coolest movie ever made,Sci-fi,1975,1,False 
+413408,Morbius,The saddest movie ever made,Action,2019,1,False 
+961070,Morbius,The saddest movie ever made,Romance,2022,8,False 
+521449,1917,The first movie ever made,Romance,2008,0,False 
+668840,Star Wars,The funniest movie ever made,Adventure,2019,0,False 
+378575,The Horse in Motion,The first movie ever made,Adventure,1975,0,False 
+495906,The Horse in Motion,The first movie ever made,Sci-fi,2010,2,False 
+905227,1917,The funniest movie ever made,Romance,1998,0,False 
+920567,Batman,The saddest movie ever made,Adventure,2010,0,False 
+134740,Iron Man,The coolest movie ever made,Comedy,2008,0,False 
+868433,1917,The coolest movie ever made,Action,2019,0,False 
+541368,1917,The first movie ever made,Sci-fi,2010,0,False 
+149661,Morbius,The funniest movie ever made,Romance,2019,2,False 

@@ -139,8 +139,8 @@ class ServiceClient:
 
     def sortRentingClientsService(self):
         """
-        Service for sorting clients that are currently renting movies
-        :return:
+        Service for sorting clients by first name that are currently renting movies
+        :return: list
         """
 
         lst = []
@@ -176,5 +176,3 @@ class ServiceClient:
         length = int(len(lst) * 0.3)
 
         return lst[:length]
-
-

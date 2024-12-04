@@ -1,53 +1,40 @@
+import unittest
 from domain.Rent import RentValidator, Rent
 from domain.Client import Client
 from domain.Movie import Movie
-class TestRent:
 
-    def run_all_tests(self):
-        """
-        Runs all tests.
-        """
-        pass
-        self.test_getID()
-        self.test_getClientID()
-        self.test_getMovieID()
-        self.test_getRentDate()
-        self.test_getReturnDate()
-        self.test_setID()
-        self.test_setClientID()
-        self.test_setMovieID()
-        self.test_setRentDate()
-        self.test_setReturnDate()
+
+class TestRent(unittest.TestCase):
 
     def test_getID(self):
         """
         Test function for getID()
         """
-        rent = Rent(2, 1, 1, 12,10, 2024, 0, 0, 0, False)
-        assert rent.getID() == 2
+        rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0, False)
+        self.assertEqual(rent.getID(), 2)
 
     def test_getClientID(self):
         """
         Test function for getClientID()
         """
         rent = Rent(1, 2, 1, 12, 10, 2024, 0, 0, 0, False)
-        assert rent.getClientID() == 2
+        self.assertEqual(rent.getClientID(), 2)
 
     def test_getMovieID(self):
         """
         Test function for getMovieID()
         """
-        rent = Rent(1, 1, 2, 12, 10, 2024, 0, 0 ,0, False)
-        assert rent.getMovieID() == 2
+        rent = Rent(1, 1, 2, 12, 10, 2024, 0, 0, 0, False)
+        self.assertEqual(rent.getMovieID(), 2)
 
     def test_getRentDate(self):
         """
         Test function for getRentDate()
         """
-        rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0 ,0, False)
-        assert rent.getRentDay() == 12
-        assert rent.getRentMonth() == 10
-        assert rent.getRentYear() == 2024
+        rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0, 0, False)
+        self.assertEqual(rent.getRentDay(), 12)
+        self.assertEqual(rent.getRentMonth(), 10)
+        self.assertEqual(rent.getRentYear(), 2024)
 
     def test_getReturnDate(self):
         """
@@ -55,9 +42,9 @@ class TestRent:
         """
         rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0, 0, False)
         rent.setReturnDate(13, 11, 2024)
-        assert rent.getReturnDay() == 13
-        assert rent.getReturnMonth() == 11
-        assert rent.getReturnYear() == 2024
+        self.assertEqual(rent.getReturnDay(), 13)
+        self.assertEqual(rent.getReturnMonth(), 11)
+        self.assertEqual(rent.getReturnYear(), 2024)
 
     def test_setID(self):
         """
@@ -65,7 +52,7 @@ class TestRent:
         """
         rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0, False)
         rent.setID(3)
-        assert rent.getID() == 3
+        self.assertEqual(rent.getID(), 3)
 
     def test_setClientID(self):
         """
@@ -74,7 +61,7 @@ class TestRent:
 
         rent = Rent(1, 2, 1, 12, 10, 2024, 0, 0, 0, False)
         rent.setClientID(3)
-        assert rent.getClientID() == 3
+        self.assertEqual(rent.getClientID(), 3)
 
     def test_setMovieID(self):
         """
@@ -82,7 +69,7 @@ class TestRent:
         """
         rent = Rent(1, 1, 2, 12, 10, 2024, 0, 0, 0, False)
         rent.setMovieID(3)
-        assert rent.getMovieID() == 3
+        self.assertEqual(rent.getMovieID(), 3)
 
     def test_setRentDate(self):
         """
@@ -90,9 +77,9 @@ class TestRent:
         """
         rent = Rent(1, 1, 1, 12, 10, 2024, 0, 0, 0, False)
         rent.setRentDate(13, 11, 2024)
-        assert rent.getRentDay() == 13
-        assert rent.getRentMonth() == 11
-        assert rent.getRentYear() == 2024
+        self.assertEqual(rent.getRentDay(), 13)
+        self.assertEqual(rent.getRentMonth(), 11)
+        self.assertEqual(rent.getRentYear(), 2024)
 
     def test_setReturnDate(self):
         """
@@ -100,36 +87,69 @@ class TestRent:
         """
         rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0, False)
         rent.setReturnDate(13, 11, 2024)
-        assert rent.getReturnDay() == 13
-        assert rent.getReturnMonth() == 11
-        assert rent.getReturnYear() == 2024
+        self.assertEqual(rent.getReturnDay(), 13)
+        self.assertEqual(rent.getReturnMonth(), 11)
+        self.assertEqual(rent.getReturnYear(), 2024)
 
-class TestRentValidator:
-    def run_all_tests(self):
-        """
-        Runs all tests
-        """
-        self.test_validateRent()
-        self.test_validateReturnDate()
+
+class TestRentValidator(unittest.TestCase):
 
     def test_validateRent(self):
         """
         Test function for validateRent()
         """
-        client = Client(1 , "Ion", "Popescu" , 1231231230321, 0, False)
-        movie = Movie(1 , "Mos Craciun", "Xmas Movie", "Adventure", 1997, 0, False)
+        client = Client(1, "Ion", "Popescu", 1231231230321, 0, False)
+        movie = Movie(1, "Mos Craciun", "Xmas Movie", "Adventure", 1997, 0, False)
         rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0, False)
-        clients = []
-        movies = []
-        clients.append(client)
-        movies.append(movie)
+        clients = [client]
+        movies = [movie]
 
         validator = RentValidator()
         try:
             validator.validateRent(rent, clients, movies)
-            assert True
+            result = True
         except ValueError:
-            assert False
+            result = False
+        self.assertTrue(result)
+
+        rent.setClientID(2)
+        try:
+            validator.validateRent(rent, clients, movies)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+        rent.setClientID(1)
+        rent.setMovieID(2)
+
+        try:
+            validator.validateRent(rent, clients, movies)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+        rent = Rent(1, 1, 1, 12, 10, 2023, 0, 0, 0, False)
+        try:
+            validator.validateRent(rent, clients, movies)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+
+        rent = Rent(1, 1, 1, 12, 13, 2024, 0, 0, 0, False)
+        try:
+            validator.validateRent(rent, clients, movies)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+
+        rent = Rent(1, 1, 1, 32, 10, 2023, 0, 0, 0, False)
+        try:
+            validator.validateRent(rent, clients, movies)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
 
     def test_validateReturnDate(self):
         """
@@ -137,22 +157,29 @@ class TestRentValidator:
         """
         rent = Rent(2, 1, 1, 12, 10, 2024, 0, 0, 0, False)
         validator = RentValidator()
+
         try:
             validator.validateReturnDate(13, 11, 2024, rent)
-            assert True
+            result = True
         except ValueError:
-            assert False
+            result = False
+        self.assertTrue(result)
 
         try:
             validator.validateReturnDate(12, 11, 2026, rent)
-            assert False
+            result = False
         except ValueError:
-            assert True
-
+            result = True
+        self.assertTrue(result)
 
         rent.setReturnDate(13, 11, 2024)
         try:
             validator.validateReturnDate(rent.getReturnDay(), rent.getReturnMonth(), rent.getReturnYear(), rent)
-            assert True
+            result = True
         except ValueError:
-            assert False
+            result = False
+        self.assertTrue(result)
+
+
+if __name__ == '__main__':
+    unittest.main()

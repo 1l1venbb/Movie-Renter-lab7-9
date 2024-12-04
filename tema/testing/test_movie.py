@@ -1,183 +1,141 @@
+import unittest
 from domain.Movie import Movie, MovieValidator
 from repository.movieList import MovieList
 
-class TestMovie:
 
-    def run_all_tests(self):
-        """
-        Runs all test for Movie
-        """
-        self.test_getID()
-        self.test_getTitle()
-        self.test_getDescription()
-        self.test_getGenre()
-        self.test_getReleaseYear()
-        self.test_setID()
-        self.test_setTitle()
-        self.test_setDescription()
-        self.test_setGenre()
-        self.test_setReleaseYear()
-        self.test_RentFunctions()
+class TestMovie(unittest.TestCase):
 
     def test_getID(self):
         """
         Test function for getID()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
-        assert movie.getID() == 1
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        self.assertEqual(movie.getID(), 1)
 
     def test_getTitle(self):
         """
         Test function for getTitle()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
-        assert movie.getTitle() == "The Horse in Motion"
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        self.assertEqual(movie.getTitle(), "The Horse in Motion")
 
     def test_getDescription(self):
         """
         Test function for getDescription()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
-        assert movie.getDescription() == "First movie ever"
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        self.assertEqual(movie.getDescription(), "First movie ever")
 
     def test_getGenre(self):
         """
         Test function for getGenre()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
-        assert movie.getGenre() == "Action"
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        self.assertEqual(movie.getGenre(), "Action")
 
     def test_getReleaseYear(self):
         """
         Test function for getReleaseYear()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
-        assert movie.getReleaseYear() == 1878
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        self.assertEqual(movie.getReleaseYear(), 1878)
 
     def test_setID(self):
         """
         Test function for setID()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         movie.setID(2)
-        assert movie.getID() == 2
+        self.assertEqual(movie.getID(), 2)
 
     def test_setTitle(self):
         """
         Test function for setTitle()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         movie.setTitle("The Horse in Motion 2")
-        assert movie.getTitle() == "The Horse in Motion 2"
+        self.assertEqual(movie.getTitle(), "The Horse in Motion 2")
 
     def test_setDescription(self):
         """
         Test function for setDescription()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         movie.setDescription("Second movie ever")
-        assert movie.getDescription() == "Second movie ever"
+        self.assertEqual(movie.getDescription(), "Second movie ever")
 
     def test_setGenre(self):
         """
         Test function for setGenre()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         movie.setGenre("Comedy")
-        assert movie.getGenre() == "Comedy"
+        self.assertEqual(movie.getGenre(), "Comedy")
 
     def test_setReleaseYear(self):
         """
         Test function for setReleaseYear()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         movie.setReleaseYear(1900)
-        assert movie.getReleaseYear() == 1900
+        self.assertEqual(movie.getReleaseYear(), 1900)
 
     def test_RentFunctions(self):
         """
         Test function for Renting functions
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
 
         movie.wasRented()
         movie.wasRented()
-        assert movie.getCopiesRented() == 2
+        self.assertEqual(movie.getCopiesRented(), 2)
 
         movie.wasReturned()
-        assert movie.getCopiesRented() == 1
+        self.assertEqual(movie.getCopiesRented(), 1)
 
-class TestMovieValidator:
 
-    def run_all_tests(self):
-        """
-        Runs all test for MovieValidator
-        """
-        self.test_validateMovie()
+class TestMovieValidator(unittest.TestCase):
 
     def test_validateMovie(self):
         """
         Test function for validateMovie()
         """
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         validator = MovieValidator()
+
+        # Valid movie
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         try:
             validator.validateMovie(movie)
-            assert True
+            result = True
         except ValueError:
-            assert False
+            result = False
+        self.assertTrue(result)
 
-        movie = Movie(1 , "  ", "First movie ever", "Action", 1878, 0, False)
-        try:
-            validator.validateMovie(movie)
-            assert False
-        except ValueError:
-            assert True
+        # Invalid movies
+        invalid_movies = [
+            Movie(1, "  ", "First movie ever", "Action", 1878, 0, False),
+            Movie(1, "The Horse in Motion", "  ", "Action", 1878, 0, False),
+            Movie(1, "The Horse in Motion", "First movie ever", "  ", 1878, 0, False),
+            Movie(1, "The Horse in Motion", "First movie ever", "Action", 1877, 0, False)
+        ]
 
-        movie = Movie(1 , "The Horse in Motion", "  ", "Action", 1878, 0, False)
-        try:
-            validator.validateMovie(movie)
-            assert False
-        except ValueError:
-            assert True
+        for movie in invalid_movies:
+            with self.assertRaises(ValueError):
+                validator.validateMovie(movie)
 
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "  ", 1878, 0, False)
-        try:
-            validator.validateMovie(movie)
-            assert False
-        except ValueError:
-            assert True
 
-        movie = Movie(1 , "The Horse in Motion" , "First movie ever", "Action", 1877, 0, False)
-        try:
-            validator.validateMovie(movie)
-            assert False
-        except ValueError:
-            assert True
-
-class TestRepoMovie:
-
-    def run_all_tests(self):
-        """
-        Runs all tests for RepoMovie
-        """
-        self.test_isEmpty()
-        self.test_getMovie()
-        self.test_addMovie()
-        self.test_deleteMovie()
-        self.test_getAll()
-        self.test_modifyMovie()
+class TestRepoMovie(unittest.TestCase):
 
     def test_isEmpty(self):
         """
         Test function for isEmpty()
         """
         lst = MovieList()
-        assert lst.isEmpty() == True
+        self.assertTrue(lst.isEmpty())
 
-        movie = Movie(1 , "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         lst.addMovie(movie)
-        assert lst.isEmpty() == False
+        self.assertFalse(lst.isEmpty())
 
     def test_getMovie(self):
         """
@@ -186,7 +144,7 @@ class TestRepoMovie:
         lst = MovieList()
         movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         lst.addMovie(movie)
-        assert lst.getMovie(1) == movie
+        self.assertEqual(lst.getMovie(1), movie)
 
     def test_addMovie(self):
         """
@@ -195,8 +153,7 @@ class TestRepoMovie:
         lst = MovieList()
         movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         lst.addMovie(movie)
-        assert lst.getAll() == [movie]
-
+        self.assertEqual(lst.getAll(), [movie])
 
     def test_deleteMovie(self):
         """
@@ -206,9 +163,9 @@ class TestRepoMovie:
         lst = MovieList()
         movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         lst.addMovie(movie)
-        assert lst.isEmpty() == False
+        self.assertFalse(lst.isEmpty())
         lst.deleteMovie(1)
-        assert lst.isEmpty() == True
+        self.assertTrue(lst.isEmpty())
 
     def test_getAll(self):
         """
@@ -219,7 +176,7 @@ class TestRepoMovie:
         lst.addMovie(movie)
         movie1 = Movie(2, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         lst.addMovie(movie1)
-        assert lst.getAll() == [movie, movie1]
+        self.assertEqual(lst.getAll(), [movie, movie1])
 
     def test_modifyMovie(self):
         """
@@ -230,6 +187,10 @@ class TestRepoMovie:
         lst.addMovie(movie)
         movie1 = Movie(1, "The Horse in the House", "First movie ever", "Action", 18, 0, False)
         lst.modifyMovie(movie1)
-        movie = lst.getMovie(1)
-        assert movie.getTitle() == movie1.getTitle()
-        assert movie.getReleaseYear() == movie1.getReleaseYear()
+        modified_movie = lst.getMovie(1)
+        self.assertEqual(modified_movie.getTitle(), movie1.getTitle())
+        self.assertEqual(modified_movie.getReleaseYear(), movie1.getReleaseYear())
+
+
+if __name__ == '__main__':
+    unittest.main()
