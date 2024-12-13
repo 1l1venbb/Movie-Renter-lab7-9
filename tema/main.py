@@ -1,5 +1,4 @@
 from domain import Rent
-from testing.test_all import AssembleTests
 from service import serviceClient, serviceRent
 from service import serviceMovie
 import domain.Client as Client
@@ -9,11 +8,11 @@ import repository.movieList as movieList
 import repository.clientList as clientList
 import repository.repoMemory as repoMemory
 import ui.terminal as terminal
-
+import testing.test_all as testing
 
 print("Loading...")
-AssembleTests.testAll()
-print("Loaded!")
+
+test = testing.AssembleTests()
 
 clientValidator = Client.ClientValidator()
 clientRepo = clientList.ClientList()
@@ -31,5 +30,7 @@ rentMemory = repoMemory.FileRepoRents("rents.txt")
 rentService = serviceRent.ServiceRent(rentMemory, rentValidator, movieMemory, clientMemory)
 
 UI = terminal.Terminal(clientService, movieService, rentService)
+
+print("Loaded!")
 
 UI.run()
