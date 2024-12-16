@@ -10,6 +10,9 @@ import repository.repoMemory as repoMemory
 import ui.terminal as terminal
 import testing.test_all as testing
 
+# getClient(), getMovie() are recursive
+
+
 print("Loading...")
 
 test = testing.AssembleTests()

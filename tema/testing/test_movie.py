@@ -1,6 +1,7 @@
 import unittest
 from domain.Movie import Movie, MovieValidator
 from repository.movieList import MovieList
+from service.serviceMovie import ServiceMovie
 
 
 class TestMovie(unittest.TestCase):
@@ -39,6 +40,13 @@ class TestMovie(unittest.TestCase):
         """
         movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         self.assertEqual(movie.getReleaseYear(), 1878)
+
+    def test_getCopiesRented(self):
+        """
+        Test function for getCopiesRented()
+        """
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        self.assertEqual(movie.getCopiesRented(), 0)
 
     def test_setID(self):
         """
@@ -126,6 +134,45 @@ class TestMovieValidator(unittest.TestCase):
 
 class TestRepoMovie(unittest.TestCase):
 
+    def test_len(self):
+        """
+        Test function for len()
+        """
+        lst = MovieList()
+
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        self.assertEqual(len(lst), 1)
+        movie = Movie(2, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        self.assertEqual(len(lst), 2)
+
+    def test_getMovie(self):
+        """
+        Test function for getmovie()
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        self.assertEqual(lst.getMovie(1), movie)
+        self.assertEqual(lst.getMovie(2), None)
+
+    def test_isIDUnique(self):
+        """
+        Test function for isIDUnique()
+        """
+        lst = MovieList()
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        movie = Movie(2, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        result=True
+        try:
+            lst.isIDUnique(1)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
     def test_isEmpty(self):
         """
         Test function for isEmpty()
@@ -137,15 +184,6 @@ class TestRepoMovie(unittest.TestCase):
         lst.addMovie(movie)
         self.assertFalse(lst.isEmpty())
 
-    def test_getMovie(self):
-        """
-        Test function for getMovie()
-        """
-        lst = MovieList()
-        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
-        lst.addMovie(movie)
-        self.assertEqual(lst.getMovie(1), movie)
-
     def test_addMovie(self):
         """
         Test function for addMovie()
@@ -154,6 +192,14 @@ class TestRepoMovie(unittest.TestCase):
         movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
         lst.addMovie(movie)
         self.assertEqual(lst.getAll(), [movie])
+        movie = Movie(1, "The Cat in Motion", "First movie ever", "Action", 1878, 0, False)
+
+        result = True
+        try:
+            lst.addMovie(movie)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
 
     def test_deleteMovie(self):
         """
@@ -166,6 +212,12 @@ class TestRepoMovie(unittest.TestCase):
         self.assertFalse(lst.isEmpty())
         lst.deleteMovie(1)
         self.assertTrue(lst.isEmpty())
+        result = True
+        try:
+            lst.deleteMovie(1)
+            result = False
+        except ValueError:
+            self.assertTrue(result)
 
     def test_getAll(self):
         """
@@ -191,6 +243,179 @@ class TestRepoMovie(unittest.TestCase):
         self.assertEqual(modified_movie.getTitle(), movie1.getTitle())
         self.assertEqual(modified_movie.getReleaseYear(), movie1.getReleaseYear())
 
+
+class TestMovieService(unittest.TestCase):
+
+    def test_addMovie(self):
+        """
+        Test function for addMovie()
+        """
+        movieValidator = MovieValidator()
+        movieRepo = MovieList()
+        service = ServiceMovie(movieRepo, movieValidator)
+
+        service.addMovieService(1, "The Horse in Motion", "First movie ever made", "Action", 1887)
+        movie = movieRepo.getMovie(1)
+        self.assertEqual(movieRepo.getAll(), [movie])
+
+    def test_getAllMoviesService(self):
+        movieValidator = MovieValidator()
+        movieRepo = MovieList()
+        service = ServiceMovie(movieRepo, movieValidator)
+
+        movie1 = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        movieRepo.addMovie(movie1)
+        movie2 = Movie(2, "The Cat in Motion", "First movie ever", "Action", 1878, 0, False)
+        movieRepo.addMovie(movie2)
+
+        self.assertEqual(service.getAllMoviesService(), [movie1, movie2])
+
+    def test_deleteMovieService(self):
+        """
+        Test function for deleteMovieService()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        service.deleteMovieService(1)
+        self.assertEqual(lst.getAll(), [])
+
+    def test_getMovieService(self):
+        """
+        Test function for getMovieService()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        self.assertEqual(service.getMovieService(1), movie)
+
+    def test_modifyMovieService(self):
+        """
+        Test function for modifyMovieService()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        result = True
+
+        try:
+            service.modifyMovieService(1, "The Cat in Motion", "First movie ever made", "Action", 1887)
+        except ValueError:
+            result = False
+        self.assertTrue(result)
+
+        try:
+            service.modifyMovieService(1, "", "First movie ever made", "Action", 1887)
+        except ValueError:
+            result = False
+        self.assertTrue(result)
+
+        try:
+            service.modifyMovieService(1, "The Cat in Motion", "", "Action", 1887)
+        except ValueError:
+            result = False
+        self.assertTrue(result)
+
+        try:
+            service.modifyMovieService(1, "The Cat in Motion", "First movie ever made", "", 1887)
+        except ValueError:
+            result = False
+        self.assertTrue(result)
+
+        try:
+            service.modifyMovieService(1, "The Cat in Motion", "First movie ever made", "Action", 1887)
+        except ValueError:
+            result = False
+        self.assertTrue(result)
+
+        try:
+            service.modifyMovieService(1, "The Cat in Motion", "First movie ever made", "Action", "")
+        except ValueError:
+            result = False
+        self.assertTrue(result)
+
+
+    def test_searchByTitle(self):
+        """
+        Test function for searchByTitle()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+        result = True
+
+        self.assertEqual(service.searchByTitle("The Horse in Motion"), [movie])
+        try:
+            service.searchByTitle("asdasdsa")
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+    def test_searchByGenre(self):
+        """
+        Test function for searchByGenre()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        result = True
+
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+
+
+        self.assertEqual(service.searchByGenre("Action"), [movie])
+        try:
+            service.searchByGenre("asdasdsa")
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+    def test_searchByReleaseYear(self):
+        """
+        Test function for searchByReleaseYear()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        result = True
+
+        movie = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 0, False)
+        lst.addMovie(movie)
+
+        self.assertEqual(service.searchByReleaseYear(1878), [movie])
+        try:
+            service.searchByReleaseYear("asdasdsa")
+            result = False
+        except ValueError:
+            self.assertTrue(result)
+
+    def test_generateMovieService(self):
+        """
+        Test function for generateMovieService()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+
+        service.generateMovieService()
+        self.assertEqual((len(lst.getAll())), 1)
+        self.assertTrue(isinstance(lst.getAll()[0], Movie))
+
+    def test_showLeastRentedMoviesService(self):
+        """
+        Test function for showLeastRentedMoviesService()
+        """
+        lst = MovieList()
+        service = ServiceMovie(lst, MovieValidator())
+        movie1 = Movie(1, "The Horse in Motion", "First movie ever", "Action", 1878, 2, False)
+        lst.addMovie(movie1)
+        movie2 = Movie(2, "The Cat in Motion", "First movie ever", "Action", 1878, 1, False)
+        lst.addMovie(movie2)
+        movie3 = Movie(3, "The Horse in Motion", "First movie ever", "Comedy", 1878, 0, False)
+        lst.addMovie(movie3)
+        self.assertEqual(service.showLeastRentedMoviesService(), [movie3, movie2, movie1])
 
 if __name__ == '__main__':
     unittest.main()

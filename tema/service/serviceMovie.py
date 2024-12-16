@@ -1,4 +1,5 @@
 from domain import Movie
+from utils.Sorts import Sorts
 from utils.randomMovie import RandomMovie
 
 
@@ -145,8 +146,9 @@ class ServiceMovie:
         lst = []
         for movie in self.repoMovie.getAll():
             lst.append(movie)
-
-        lst.sort(key = lambda x: x.getCopiesRented(), reverse=True)
+        sort = Sorts()
+        #lst.sort(key = lambda x: x.getCopiesRented(), reverse=True)
+        sort.insertionSort(lst, lambda x: x.getCopiesRented(), reverse=True)
         return [lst[0], lst[1], lst[2]]
 
     def showLeastRentedMoviesService(self):
@@ -156,5 +158,8 @@ class ServiceMovie:
         lst = []
         for movie in self.repoMovie.getAll():
             lst.append(movie)
-        lst.sort(key=lambda x: x.getCopiesRented(), reverse=False)
+
+        sort = Sorts()
+        #lst.sort(key=lambda x: x.getCopiesRented(), reverse=False)
+        sort.insertionSort(lst, lambda x: x.getCopiesRented(), reverse=False)
         return [lst[0], lst[1], lst[2]]

@@ -1,5 +1,6 @@
 from domain import Client
 from utils.randomClient import RandomClient
+from utils.Sorts import Sorts as Sorts
 
 class ServiceClient:
 
@@ -148,7 +149,10 @@ class ServiceClient:
             if client.getCopiesRented() > 0:
                 lst.append(client)
 
-        lst.sort(key=lambda x: x.getFirstName(), reverse=False)
+        sort = Sorts()
+
+        #lst.sort(key=lambda x: x.getFirstName(), reverse=False)
+        sort.insertionSort(lst, key = lambda x: x.getFirstName())
 
         return lst
 
@@ -159,8 +163,9 @@ class ServiceClient:
         lst = []
         for client in self.repoClient.getAll():
             lst.append(client)
-
-        lst.sort(key=lambda x: x.getCopiesRented(), reverse=True)
+        sort = Sorts()
+        #lst.sort(key=lambda x: x.getCopiesRented(), reverse=True)
+        sort.combSort(lst, key = lambda x: x.getCopiesRented(), reverse = True)
         return lst
 
     def top30pClientsService(self):
@@ -172,7 +177,9 @@ class ServiceClient:
         for client in self.repoClient.getAll():
             lst.append(client)
 
-        lst.sort(key=lambda x: x.getCopiesRented(), reverse=True)
+        #lst.sort(key=lambda x: x.getCopiesRented(), reverse=True)
+        sort = Sorts()
+        sort.combSort(lst, key = lambda x: x.getCopiesRented(), reverse = True)
         length = int(len(lst) * 0.3)
 
         return lst[:length]

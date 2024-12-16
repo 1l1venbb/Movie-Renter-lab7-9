@@ -45,15 +45,19 @@ class ClientList:
                 raise ValueError("CNP already exists")
         return True
 
-    def getClient(self, ID):
+    def getClient(self, ID, index = 0):
         """"
         Returns a client with the given ID
         :param ID: ID of the client
+        :param index: index of the client. DO NOT TOUCH
         """
-        for client in self.clients:
-            if client.getID() == ID:
-                return client
-        return None
+        if index >= len(self.clients):
+            return None
+
+        client = self.clients[index]
+        if client.getID() == ID:
+            return client
+        return self.getClient(ID, index + 1)
 
     def getNewID(self):
         """

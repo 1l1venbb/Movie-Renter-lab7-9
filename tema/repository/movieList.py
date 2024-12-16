@@ -17,16 +17,20 @@ class MovieList:
             return True
         return False
 
-    def getMovie(self, ID):
+    def getMovie(self, ID, index = 0):
         """
         Returns a movie with the given ID
         :param ID: ID of the movie
+        :param index: index of the movie DO NOT TOUCH
         :return: The movie or None
         """
-        for movie in self.movies:
-            if movie.getID() == ID:
-                return movie
-        return None
+        if index >= len(self.getAll()):
+            return None
+
+        movie = self.movies[index]
+        if movie.ID == ID:
+            return movie
+        return self.getMovie(ID, index+1)
 
     def getNewID(self):
         """
@@ -42,8 +46,8 @@ class MovieList:
         Adds a movie to the list of movies
         :param movie: Movie object
         """
-        if movie.getID() in self.movies:
-            raise Exception("Client ID already exists")
+        if self.getMovie(movie.getID()) is not None:
+            raise ValueError("Client ID already exists")
         else:
             #client.setID(self.getNewID())
             self.movies.append(movie)
@@ -58,7 +62,7 @@ class MovieList:
         if movie is not None:
                 self.movies.remove(movie)
         else:
-            raise Exception("Movie does not exist")
+            raise ValueError("Movie does not exist")
 
     def getAll(self):
         """
